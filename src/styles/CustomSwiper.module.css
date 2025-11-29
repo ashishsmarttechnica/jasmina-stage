@@ -1,0 +1,60 @@
+.swiperContainer {
+  padding-bottom: 2.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  position: relative;
+}
+
+.swiperContainer :global(.swiper-pagination) {
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.swiperContainer :global(.swiper-pagination-bullet) {
+  width: 8px;
+  height: 8px;
+  background-color: #e5e7eb;
+  opacity: 1;
+  margin: 0 4px;
+}
+
+.swiperContainer :global(.swiper-pagination-bullet-active) {
+  background-color: var(--primary);
+}
+
+.swiperContainer :global(.swiper-button-prev),
+.swiperContainer :global(.swiper-button-next) {
+  color: #9ca3af;
+  top: auto;
+  bottom: -5px;
+}
+
+.swiperContainer :global(.swiper-button-prev) {
+  left: 30%;
+  transform: translateX(-50%);
+}
+
+.swiperContainer :global(.swiper-button-next) {
+  right: 30%;
+  transform: translateX(50%);
+}
+
+.swiperContainer :global(.swiper-button-prev:hover),
+.swiperContainer :global(.swiper-button-next:hover) {
+  color: var(--primary);
+}
+
+.swiperContainer :global(.swiper-button-prev::after),
+.swiperContainer :global(.swiper-button-next::after) {
+  font-size: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .swiperContainer {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}

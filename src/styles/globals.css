@@ -1,0 +1,718 @@
+/* .testimonial-swiper .swiper-pagination {
+  bottom: 0 !important;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.testimonial-swiper .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #cbd5f5;
+  opacity: 1;
+  transition: width 0.25s ease, background-color 0.25s ease;
+}
+
+.testimonial-swiper .swiper-pagination-bullet-active {
+  width: 26px;
+  background: #0f172a;
+} */
+
+
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: #0f8200;
+  --secondary: #cfe6cc;
+  --lightGray: #cab7cc;
+  --gray: #edf2f6;
+  --headerbg: #1d2f38;
+  --footerBorder: #e7e7e7;
+  --custBlack: #333;
+  --grayBlueText: #888da8;
+  --lightBlue: #007bff;
+  --lightWhite: #f1f1f1;
+  --uiLight: #f2f2f2;
+  --neutralLight2: #eaeaea;
+  --shadow-card: 0px 4px 25px 0px rgba(136, 141, 168, 0.1);
+  --shadow-job-dropdown: 0px 2px 6px 0px rgba(0, 0, 0, 0.18);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --shadow-card: var(--shadow-card);
+  --shadow-job-dropdown: var(--shadow-job-dropdown);
+  --color-foreground: var(--foreground);
+  --color-lightGray: var(--lightGray);
+  --color-lightWhite: var(--lightWhite);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-gray: var(--gray);
+  --color-grayBlueText: var(--grayBlueText);
+  --color-headerbg: var(--headerbg);
+  --color-lightBlue: var(--lightBlue);
+  --color-uiLight: var(--uiLight);
+  --color-neutralLight2: var(--neutralLight2);
+  --color-custBlack: var(--custBlack);
+  --color-footerBorder: var(--footerBorder);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-ubuntu: var(--font-ubuntu);
+}
+
+/* Target the close button within a custom-modal wrapper */
+.rs-modal-header-close .rs-btn-close {
+  right: auto;
+  left: 10px;
+}
+
+.rs-modal-header {
+  padding-right: 19px !important;
+}
+
+.custom-modal .rs-modal-close,
+.custom-drawer .rs-drawer-close {
+  /* Remove the default right positioning */
+  right: auto;
+  /* Set the desired left positioning */
+  left: 10px;
+  /* Adjust as needed for desired spacing */
+}
+
+/* Optional: Adjust header padding to ensure content doesn't overlap the button */
+.custom-modal .rs-modal-header,
+.custom-drawer .rs-drawer-header {
+  padding-left: 40px;
+  /* Ensure enough space for the left-aligned button */
+}
+
+
+
+.container {
+  max-width: 1152px;
+  margin: auto;
+  padding: 0 20px;
+}
+
+body {
+  @apply bg-gray font-ubuntu;
+}
+
+.r-modal {
+  border-radius: 5px;
+  /* Adjust value as needed */
+}
+
+.rs-modal-content {
+  padding: 8px 20px;
+}
+
+/* Account Type Modal Styles */
+.account-type-modal .rs-modal-content {
+  border-radius: 12px;
+  box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.account-type-modal .rs-modal-header {
+  padding: 20px 24px 10px;
+  border-bottom: none;
+}
+
+.account-type-modal .rs-modal-body {
+  padding: 0 24px 20px;
+}
+
+.account-type-modal .rs-modal-footer {
+  padding: 15px 24px;
+  border-top: 1px solid var(--neutralLight2);
+}
+
+.account-type-modal .rs-btn-primary {
+  background-color: var(--primary);
+}
+
+.account-type-modal .rs-btn-primary:hover,
+.account-type-modal .rs-btn-primary:focus {
+  background-color: var(--primary);
+  opacity: 0.9;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.rainbow-icon {
+  width: 40px;
+  height: 20px;
+  border-radius: 100px 100px 0 0;
+  background: conic-gradient(red 0deg 60deg,
+      orange 60deg 120deg,
+      yellow 120deg 180deg,
+      green 180deg 240deg,
+      blue 240deg 300deg,
+      violet 300deg 360deg);
+  border: 2px solid white;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+ul,
+li {
+  list-style: none;
+  margin-bottom: 0px;
+}
+
+/* Remove the default radio button styling that was causing issues */
+input[type="radio"]:checked::before {
+  content: none;
+}
+
+.cust-card {
+  @apply w-full rounded-lg bg-white;
+}
+
+.btn {
+  @apply rounded-md px-5 py-2.5 text-sm font-medium text-white;
+}
+
+.btn-fill {
+  @apply bg-primary hover:bg-secondary/70 hover:border-primary hover:text-primary mt-3 w-full rounded-[4px] border border-transparent p-1 text-[18px] text-white transition-all duration-200 ease-in sm:mt-6 sm:p-2 sm:text-[18px];
+}
+
+.btn-white-fill {
+  @apply text-primary border-primary hover:bg-primary mt-3 w-full rounded-[4px] border bg-white p-1 text-[18px] transition-all duration-200 ease-in hover:text-white sm:mt-6 sm:p-2 sm:text-[20px];
+}
+
+.btn-small {
+  @apply bg-primary hover:bg-secondary hover:text-primary rounded-sm p-2 text-[13px] text-white transition-all duration-100 ease-in sm:px-3 sm:py-2;
+}
+
+.btn-small-light {
+  @apply bg-secondary hover:bg-primary text-primary hover:text-secondary rounded-sm p-2 text-[13px] transition-all duration-100 ease-in sm:px-3 sm:py-2;
+}
+
+.rs-modal-wrapper {
+  @apply flex items-center justify-center;
+}
+
+.rs-modal-body {
+  @apply mt-0;
+}
+
+.rs-modal-header:after,
+.rs-modal-header:before {
+  display: none !important;
+}
+
+/* .rs-modal-header, .rs-modal-header-close{
+  padding-right: 0px !important
+  ;
+} */
+
+.rs-modal-content {
+  @apply rounded-[10px];
+}
+
+.header-model .rs-modal-header {
+  padding-right: 20px !important;
+}
+
+button {
+  @apply cursor-pointer;
+}
+
+.profile-btn {
+  @apply border-primary text-primary hover:bg-primary mt-3.5 w-fit cursor-pointer rounded-[2px] border px-4 py-1 sm:text-[10px] text-[12px] transition-all duration-200 hover:text-white md:text-sm;
+}
+
+.connect-btn {
+  @apply bg-primary border-primary hover:bg-secondary hover:text-primary w-fit cursor-pointer rounded-[2px] border px-4 py-1 text-[10px] text-white transition-all duration-200 md:text-sm;
+}
+
+.message-btn {
+  @apply border-primary text-primary hover:bg-secondary hover:text-primary w-fit cursor-pointer rounded-[2px] border px-4 py-1 text-[10px] transition-all duration-200 md:text-sm;
+}
+
+.flag-btn {
+  @apply border-grayBlueText hover:border-primary text-primary hover:bg-secondary hover:text-primary w-fit cursor-pointer rounded-[2px] border px-2 py-1 text-[10px] transition-all duration-200 md:text-sm;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.showline-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.showline-10 {
+  display: -webkit-box;
+  -webkit-line-clamp: 17;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.indesc li {
+  list-style: disc;
+  padding: 5px;
+}
+
+.indesc h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 1em 0 0.5em 0;
+  color: #222;
+}
+
+.indesc h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 1em 0 0.5em 0;
+  color: #333;
+}
+
+.indesc strong {
+  font-weight: 700;
+  color: #0f8200;
+}
+
+.indesc p {
+  margin-bottom: 0.75em;
+  color: #444;
+  line-height: 1.6;
+}
+
+.dark .indesc h2,
+.dark .indesc h3,
+.dark .indesc strong,
+.dark .indesc p {
+  color: #cdcdcd;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.truncate-8 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  /* Show exactly 8 words */
+  -webkit-line-clamp: 1;
+  max-height: 1.2em;
+  line-height: 1.2;
+}
+
+/* Custom truncate for exactly 8 words */
+.truncate-8-words {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* Limit to approximately 8 words */
+  max-width: calc(10ch * 1.5);
+}
+
+.truncate-12-words {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* Limit to approximately 8 words */
+  max-width: calc(15ch * 1.5);
+}
+
+.customList ul,
+.customList li {
+  list-style: disc !important;
+  list-style-position: inside !important;
+  /* color: #1f5cd6 !important; */
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 16px !important;
+}
+
+.customList p,
+div {
+  white-space: normal !important;
+}
+
+.customList ul {
+  padding-left: 20px !important;
+}
+
+@media (max-width: 768px) {
+  .customList p {
+    text-align: left !important;
+  }
+}
+
+
+.customList strong {
+  font-weight: 700;
+}
+
+.customList ul strong {
+  font-size: 18px;
+}
+
+.customList h1 {
+  font-size: 30px !important;
+  padding: 10px 0 !important;
+  font-weight: bold;
+  text-align: center;
+  color: #7c81eb;
+}
+
+.customList h2 {
+  font-size: 20px !important;
+  color: #7c81eb;
+  font-weight: 600;
+  /* margin-bottom: 5px;
+  padding: 10px 0 !important; */
+}
+
+.customList h3 {
+  font-size: 18px !important;
+  /* color:#7c81eb; */
+  font-weight: 600;
+  /* margin-bottom: 5px;
+    padding: 10px 0 !important; */
+}
+
+.customList p {
+  margin-left: 10px;
+  font-size: 16px !important;
+  margin-top: 0;
+  margin-bottom: 0;
+  /* color: #6b7280 !important; */
+}
+
+.customList a {
+  color: #7c81eb !important;
+  transition: all 0.3s ease-in-out;
+  word-break: break-all;
+  overflow-wrap: anywhere;
+
+  &:hover {
+    text-decoration: underline !important;
+    font-weight: 600 !important;
+  }
+}
+
+/* Job Description Styling */
+.job-description strong {
+  font-weight: bold !important;
+  color: #1f2937 !important;
+  background-color: #f3f4f6 !important;
+  padding: 2px 4px !important;
+  border-radius: 4px !important;
+  margin: 0 2px !important;
+  display: inline-block !important;
+}
+
+.job-description ul {
+  list-style-type: disc !important;
+  margin: 8px 0 !important;
+  padding-left: 20px !important;
+}
+
+.job-description ol {
+  list-style-type: decimal !important;
+  margin: 8px 0 !important;
+  padding-left: 20px !important;
+}
+
+.job-description li {
+  margin: 4px 0 !important;
+  line-height: 1.5 !important;
+}
+
+.job-description p {
+  margin: 8px 0 !important;
+  line-height: 1.6 !important;
+}
+
+.job-description br {
+  margin: 4px 0 !important;
+}
+
+.job-description h1,
+.job-description h2,
+.job-description h3,
+.job-description h4,
+.job-description h5,
+.job-description h6 {
+  font-weight: bold !important;
+  margin: 12px 0 8px 0 !important;
+  color: #1f2937 !important;
+}
+
+.job-description h1 {
+  font-size: 1.5em !important;
+}
+
+.job-description h2 {
+  font-size: 1.3em !important;
+}
+
+.job-description h3 {
+  font-size: 1.1em !important;
+}
+
+.job-description a {
+  color: #2563eb !important;
+  text-decoration: underline !important;
+}
+
+.job-description a:hover {
+  color: #1d4ed8 !important;
+}
+
+.job-description blockquote {
+  border-left: 4px solid #e5e7eb !important;
+  padding-left: 16px !important;
+  margin: 12px 0 !important;
+  font-style: italic !important;
+  color: #6b7280 !important;
+}
+
+.job-description code {
+  background-color: #f3f4f6 !important;
+  padding: 2px 4px !important;
+  border-radius: 3px !important;
+  font-family: monospace !important;
+  font-size: 0.9em !important;
+}
+
+.job-description pre {
+  background-color: #f9fafb !important;
+  padding: 12px !important;
+  border-radius: 6px !important;
+  overflow-x: auto !important;
+  border: 1px solid #e5e7eb !important;
+}
+
+.job-description table {
+  border-collapse: collapse !important;
+  width: 100% !important;
+  margin: 12px 0 !important;
+}
+
+.job-description th,
+.job-description td {
+  border: 1px solid #e5e7eb !important;
+  padding: 8px 12px !important;
+  text-align: left !important;
+}
+
+.job-description th {
+  background-color: #f9fafb !important;
+  font-weight: bold !important;
+}
+
+/* Privacy Policy and Terms & Conditions Styling */
+.customList {
+  /* background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  margin: 1rem 0; */
+}
+
+.customList h1 {
+  color: #1f2937;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  border-bottom: 3px solid #3b82f6;
+  padding-bottom: 0.5rem;
+}
+
+.customList h2 {
+  color: #374151;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 1.5rem 0 1rem 0;
+  padding-left: 0.5rem;
+  border-left: 4px solid #e5e7eb;
+}
+
+.customList p {
+  color: #4b5563;
+  line-height: 1.7;
+  font-size: 19px !important;
+  margin: 1rem 0;
+  text-align: justify;
+}
+
+.customList ul,
+.customList ol {
+  margin: 1rem 0;
+  padding-left: 2rem;
+}
+
+.customList li {
+  color: #4b5563;
+  line-height: 1.6;
+  margin: 0.5rem 0;
+  font-size: 18px !important;
+}
+
+.customList a {
+  color: #3b82f6;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.customList a:hover {
+  color: #2563eb;
+}
+
+.text-break-all {
+  word-break: break-word;
+}
+
+.search-bar {
+  width: unset;
+}
+
+.job-header {
+  display: none;
+}
+
+@media (max-width: 992px) {
+  .card-main {
+    width: 100% !important;
+  }
+
+  .job-header {
+    display: block;
+  }
+
+  .myjob-card {
+
+
+    .d-hidden {
+      display: none;
+    }
+
+    .mdflex-row {
+      flex-direction: row;
+    }
+
+    .width-sm {
+      width: 47%;
+
+      div {
+        border: none;
+      }
+    }
+
+    .width-xs {
+      width: 42%;
+    }
+
+    .lg-flex {
+      display: flex;
+    }
+
+    .grid-cols1 {
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+
+    .col-span12 {
+      grid-column: span 12 / span 12;
+    }
+
+    .textcenter {
+      text-align: center;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .search-bar {
+    width: 300px;
+  }
+}
+
+@media (max-width: 640px) {
+  .rs-modal-content {
+    padding: 5px !important;
+  }
+
+  .container {
+    padding: 0 10px;
+  }
+
+  .customList h1 {
+    font-size: 22px !important;
+  }
+
+  .customList h2 {
+    font-size: 18px !important;
+  }
+
+  .customList h3 {
+    font-size: 16px !important;
+  }
+
+  .customList ul {
+    font-size: 15px !important;
+  }
+
+  .customList li {
+    font-size: 15px !important;
+  }
+}
+
+@media (max-width: 425px) {
+  .search-bar {
+    width: unset;
+  }
+
+  .profile-image {
+    width: 118px;
+    height: 118px;
+  }
+
+  .connection-card {
+    flex-direction: column;
+  }
+}

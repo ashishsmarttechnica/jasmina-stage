@@ -1,0 +1,51 @@
+.navigationContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1rem;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+}
+
+.navigationButton {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9CA3AF;
+  transition: color 0.2s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.navigationButton:hover {
+  color: var(--primary);
+}
+
+.paginationContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.paginationDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #E5E7EB;
+  transition: background-color 0.2s ease;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.paginationDotActive {
+  background-color: var(--primary);
+}
