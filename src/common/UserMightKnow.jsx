@@ -1,4 +1,5 @@
 "use client";
+import galleryIcon from "@/assets/gallery.png";
 import Contact from "@/assets/svg/feed/Contact";
 import Card from "@/common/card/Card";
 import CardHeading from "@/common/card/CardHeading";
@@ -9,12 +10,11 @@ import capitalize from "@/lib/capitalize";
 import getImg from "@/lib/getImg";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import { FaBuilding, FaUser } from "react-icons/fa";
 import { NameWithTooltip, SubtitleWithTooltip } from "../utils/tooltipUtils";
 import ImageFallback from "./shared/ImageFallback";
 import UserMightKnowSkeleton from "./skeleton/UserMightKnowSkeleton";
-import Image from "next/image";
-import galleryIcon from "@/assets/gallery.png";
 const UserMightKnow = ({ title }) => {
   const userType = capitalize(Cookies.get("userRole"));
   // console.log(userType, "userType+++++++++++++++++");
@@ -61,7 +61,7 @@ const UserMightKnow = ({ title }) => {
         type: "User",
         typeColor: "text-blue-600",
         icon: <FaUser className="h-3 w-3" />,
-        
+
       },
       Company: {
         image: item.logoUrl,
@@ -81,11 +81,11 @@ const UserMightKnow = ({ title }) => {
   };
 
   const handleContactClick = (item) => {
-    console.log(item,"item34543534534");
-    
+    console.log(item, "item34543534534");
+
     if (isCreateConnectionLoading) return;
     createConnection(
-      { id: item._id, role: item.role },
+      { id: item._id, role: item.type },
       {
         onSuccess: (res) => {
           if (res.success) {
@@ -139,7 +139,7 @@ const UserMightKnow = ({ title }) => {
       <div
         className={`flex w-full flex-col gap-2 px-2 py-4 ${
           displayData.length > 5 ? "max-h-80 overflow-y-auto" : ""
-        }`}
+          }`}
       >
         {displayData?.map((item) => {
           const config = getItemConfig(item);
@@ -202,7 +202,7 @@ const UserMightKnow = ({ title }) => {
                   isCreateConnectionLoading
                     ? "cursor-not-allowed bg-gray-300 opacity-50"
                     : "bg-secondary hover:border-primary border-transparent hover:bg-transparent"
-                }`}
+                  }`}
               >
                 <Contact className="h-4 w-4" />
               </button>
