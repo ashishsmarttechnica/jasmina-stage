@@ -13,7 +13,7 @@ import LikeUserModel from "@/modal/LikeUserModel";
 import useAuthStore from "@/store/auth.store";
 import usePostStore from "@/store/post.store";
 import { AnimatePresence, motion } from "framer-motion";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import Flag from "../../../assets/svg/user/Flag";
@@ -26,7 +26,8 @@ const DynamicPost = ({ post, isSinglePost = false, onLike, onUnlike, isLiking, i
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
   const locale = useLocale();
-  const isCompanyPost = post.userId?.role === "company"; // ya jo bhi aapke data me ho
+  const t = useTranslations();
+  const isCompanyPost = post?.userId?.role === "company" || post?.companyId; // ya jo bhi aapke data me ho
 
   // Get store functions
   const posts = usePostStore((s) => s.posts);
@@ -151,8 +152,8 @@ const DynamicPost = ({ post, isSinglePost = false, onLike, onUnlike, isLiking, i
     }
   };
 
+  console.log(post,"post++++++++++++++++++++"); 
   const isPostLiked = post?.isLiked ?? post?.isLike ?? false;
-
   return (
     <>
       <LikeUserModel
@@ -164,10 +165,16 @@ const DynamicPost = ({ post, isSinglePost = false, onLike, onUnlike, isLiking, i
         <div className="flex items-center gap-2.5 border-b border-black/10 px-5 py-4 pb-[16px]">
           <div
             className="relative h-10 w-10 cursor-pointer"
-            onClick={() => router.push(`/single-user/${post.userId._id}`)}
+            onClick={() => {
+              if (post?.userId?._id) {
+                router.push(`/single-user/${post.userId._id}`);
+              } else if (post?.companyId?._id) {
+                router.push(`/company/single-company/${post.companyId._id}`);
+              }
+            }}
           >
             <ImageFallback
-              src={post.userId?.profile?.photo && getImg(post.userId.profile.photo) && getImg(post?.companyId?.logoUrl)}
+              src={getImg(post?.userId?.profile?.photo) || getImg(post?.companyId?.logoUrl) || ""}
               alt={fullName}
               width={40}
               height={40}
@@ -178,7 +185,13 @@ const DynamicPost = ({ post, isSinglePost = false, onLike, onUnlike, isLiking, i
           <div className="min-w-0 text-left">
             <div
               className="cursor-pointer truncate text-[13px] font-medium"
-              onClick={() => router.push(`/single-user/${post.userId._id}`)}
+              onClick={() => {
+                if (post?.userId?._id) {
+                  router.push(`/single-user/${post.userId._id}`);
+                } else if (post?.companyId?._id) {
+                  router.push(`/company/single-company/${post.companyId._id}`);
+                }
+              }}
             >
               {fullName}
             </div>

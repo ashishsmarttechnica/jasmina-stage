@@ -29,7 +29,9 @@ const SignUpForm = () => {
 
   useEffect(() => {
     if (accountTypeFromQuery) {
-      setFormData((prev) => ({ ...prev, accountType: accountTypeFromQuery }));
+      // Normalize query parameter: "Company" -> "NGO / Company" for display
+      const displayValue = accountTypeFromQuery === "Company" ? "NGO / Company" : accountTypeFromQuery;
+      setFormData((prev) => ({ ...prev, accountType: displayValue }));
     }
   }, [accountTypeFromQuery]);
 
@@ -52,7 +54,13 @@ const SignUpForm = () => {
       return;
     }
 
-    mutate(formData);
+    // Normalize account type: "NGO / Company" or "Company" -> "Company"
+    const normalizedAccountType = formData.accountType === "NGO / Company" || formData.accountType === "Company" ? "Company" : formData.accountType;
+    
+    mutate({
+      ...formData,
+      accountType: normalizedAccountType
+    });
   };
 
   return (

@@ -11,7 +11,7 @@ const AccountTypeSelector = ({ value, onChange }) => {
       </div>
 
       <div className="flex w-full flex-col gap-3 sm:flex-row">
-        {["User", "Company"].map((type) => (
+        {["User", "NGO / Company"].map((type) => (
           <div className="flex-1" key={type}>
             <input
               type="radio"

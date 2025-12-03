@@ -26,13 +26,18 @@ export default function useGoogleAuth() {
       const user = result.user;
 
       try {
+        // Normalize account type: ensure "Company" is sent for NGO/Company selection
+        const normalizedEntity = accountType === "NGO / Company" || accountType === "Company" ? "Company" : accountType;
+        
+        console.log("Google Auth - Account Type:", accountType, "Normalized Entity:", normalizedEntity);
+        
         // Send user data to backend API using axios instance
         const response = await axios.post("/google", {
           googleId: user.uid,
           email: user.email,
           displayName: user.displayName,
           photoURL: user.photoURL,
-          entity: accountType,
+          entity: normalizedEntity,
         });
 
         // Handle response from API
@@ -41,6 +46,8 @@ export default function useGoogleAuth() {
           const token = userData.token;
           const role = userData.role;
           const profileComplete = userData.profileComplete;
+          
+          console.log("Google Auth Response - Role:", role, "Profile Complete:", profileComplete);
 
           // Set cookies for middleware
           Cookies.set("token", token);
@@ -55,13 +62,33 @@ export default function useGoogleAuth() {
 
           toast.success(t("GoogleSignInSuccess"));
 
-          // Redirect based on role
-          if (role === "user") {
-            router.push("/feed");
-          } else if (role === "company") {
-            router.push("/company/feed");
+          // Redirect based on role and profile completion status
+          console.log("Redirecting - Role:", role, "Profile Complete:", profileComplete);
+          
+          if (!profileComplete) {
+            // If profile is not complete, redirect to profile creation
+            if (role === "user") {
+              console.log("Redirecting to /user/create-profile");
+              router.push("/user/create-profile");
+            } else if (role === "company") {
+              console.log("Redirecting to /company/create-profile");
+              router.push("/company/create-profile");
+            } else {
+              console.log("Unknown role, redirecting to dashboard");
+              router.push("/dashboard");
+            }
           } else {
-            router.push("/dashboard");
+            // If profile is complete, redirect to feed
+            if (role === "user") {
+              console.log("Redirecting to /feed");
+              router.push("/feed");
+            } else if (role === "company") {
+              console.log("Redirecting to /company/feed");
+              router.push("/company/feed");
+            } else {
+              console.log("Redirecting to /dashboard");
+              router.push("/dashboard");
+            }
           }
         } else {
           toast.error(response.data.message || t("GoogleSignInFailed"));

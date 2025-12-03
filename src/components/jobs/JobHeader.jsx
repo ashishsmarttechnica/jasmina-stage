@@ -51,8 +51,8 @@ const JobHeader = ({ filters, setFilters, onFindJob, showSaveJobsLink = true }) 
 
   return (
     <div className="flex flex-col items-stretch justify-between gap-1 rounded-md bg-white px-2 py-1 shadow-sm sm:items-center sm:gap-1 lg:flex-row 2xl:mx-0">
-      <div className="flex w-full flex-col justify-center gap-2 py-1 lg:flex-row lg:justify-start lg:gap-0">
-        <div className="text-grayBlueText flex w-full items-center justify-around rounded-md border border-black/10 px-3 py-1 lg:max-w-[224px] lg:border-none xl:w-[240px] xl:max-w-[240px]">
+      <div className="flex w-full flex-col justify-center gap-1 py-1 lg:flex-row lg:justify-start lg:gap-0">
+        <div className="text-grayBlueText flex w-full items-center justify-around rounded-md border border-black/10 px-1 py-1 lg:max-w-[224px] lg:border-none xl:w-[240px] xl:max-w-[240px]">
           <FiSearch className="text-grayBlueText mr-2 text-2xl lg:text-3xl" />
           <input
             type="text"
@@ -156,6 +156,25 @@ const JobHeader = ({ filters, setFilters, onFindJob, showSaveJobsLink = true }) 
               </button>
             </Link>
           )} */}
+          <div
+  className="text-grayBlueText text-sm text-[14px] leading-[21px] cursor-pointer"
+  onClick={() => {
+    setSearchInput("");
+    setLocationInput("");
+    setSelected(t("all"));
+    setShowRemoteJobsOnly(false);
+
+    setFilters({
+      search: "",
+      location: "",
+      lgbtq: false,
+      remote: false,
+    });
+  }}
+>
+  Clear Filters
+</div>
+
           <button
             className="rounded-sm border border-white bg-[#0F8200] px-2 py-1.5 text-[13px] !leading-[15px] font-medium whitespace-nowrap text-white transition-all duration-200 hover:border hover:border-[#0F8200] hover:bg-transparent hover:text-[#0F8200]"
             onClick={handleFindJob}

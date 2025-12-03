@@ -143,7 +143,7 @@ const CreateCompany = () => {
       onSuccess: (res) => {
         if (res.success) {
           Cookies.set("profileCreated", true);
-          router.push("/feed");
+          router.push("/company/feed");
         }
       },
     });

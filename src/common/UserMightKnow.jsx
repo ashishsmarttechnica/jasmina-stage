@@ -49,7 +49,6 @@ const UserMightKnow = ({ title }) => {
   const router = useRouter();
 
   const getItemConfig = (item) => {
-    console.log(item, "item+++++++++++++++++");
     const configs = {
       User: {
         image: item.profile?.photo,
