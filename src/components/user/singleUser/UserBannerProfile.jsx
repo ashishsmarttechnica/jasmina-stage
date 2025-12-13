@@ -16,7 +16,7 @@ import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
-import noImage2 from "../../../../public/asssets/no-img.png";
+import noImage2 from "@/assets/feed/no-img.png";
 
 // Import social media icons
 const LinkedInIcon = () => (
