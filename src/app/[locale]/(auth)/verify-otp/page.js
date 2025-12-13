@@ -31,7 +31,7 @@ export default function VerifyOtpPage() {
       toast.error(t("emailRequired"));
       router.replace("/signup");
     }
-  }, [email, router]);
+  }, [email, router, t]);
 
   const handleChange = (e, index) => {
     const { value } = e.target;
@@ -89,7 +89,7 @@ export default function VerifyOtpPage() {
       }
     );
   };
-  
+
   useEffect(() => {
     let timer;
 
@@ -148,8 +148,8 @@ export default function VerifyOtpPage() {
               {isResending
                 ? t("Resending")
                 : cooldown > 0
-                ? `${t("Resendin")} ${cooldown}s`
-                : t("ClickToResend")}
+                  ? `${t("Resendin")} ${cooldown}s`
+                  : t("ClickToResend")}
             </button>
           </div>
 

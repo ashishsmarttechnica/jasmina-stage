@@ -4,7 +4,7 @@ import { getPageByPath } from "@/api/pages.api";
 import BackGroundLayout from "@/components/BackGroundOverlay/BackGroundLayout";
 import { useLocale } from "next-intl";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 const DynamicPage = () => {
     const params = useParams();
@@ -14,7 +14,7 @@ const DynamicPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const fetchPage = async () => {
+    const fetchPage = useCallback(async () => {
         if (!slug) return;
         try {
             setLoading(true);
@@ -26,11 +26,11 @@ const DynamicPage = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [slug, locale]);
 
     useEffect(() => {
         fetchPage();
-    }, [slug]);
+    }, [fetchPage]);
 
     if (loading) {
         return (
