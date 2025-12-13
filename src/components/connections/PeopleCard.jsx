@@ -1,3 +1,4 @@
+import galleryIcon from "@/assets/gallery.png";
 import ImageFallback from "@/common/shared/ImageFallback";
 import { useGenerateChatRoom } from "@/hooks/chat/useGenerateChatRoom";
 import { useRemoveConnection } from "@/hooks/connections/useConnections";
@@ -7,12 +8,12 @@ import useAuthStore from "@/store/auth.store";
 import useConnectionsStore from "@/store/connections.store";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { FiMessageSquare, FiTrash2 } from "react-icons/fi";
 import { toast } from "react-toastify";
-import galleryIcon from "@/assets/gallery.png";
 
 const PeopleCard = ({ person, profileId }) => {
   // console.log(person, "person||||");

@@ -238,8 +238,7 @@ function PostCardSingle({ post, userData }) {
               height={40}
               priority={true}
               alt={userData?.profile?.fullName ?? "user"}
-              className="mb-[25px] h-10 w-10 rounded-full object-cover"
-              style={{ height: "auto" }}
+              className="h-10 w-10 rounded-full object-cover"
             />
           </div>
           <div className="min-w-0 text-left">

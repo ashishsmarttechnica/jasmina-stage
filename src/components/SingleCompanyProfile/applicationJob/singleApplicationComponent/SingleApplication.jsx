@@ -224,7 +224,7 @@ const SingleApplication = () => {
 
       {/* Search and Post Job - Responsive */}
       <div className="mb-4 w-full">
-        <div className="flex w-full flex-col gap-4 rounded-lg bg-white p-3 shadow-sm sm:flex-row sm:items-center sm:justify-between lg:p-4">
+        <div className="flex w-full flex-col gap-4 rounded-lg bg-white p-2 shadow-sm sm:flex-row sm:items-center sm:justify-between lg:p-2">
           <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <SearchBar />
           </div>

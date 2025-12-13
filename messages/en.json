@@ -82,6 +82,14 @@
     "employeSteps": {
       "title": "Empowering your next career step",
       "subtitle": "Discover inclusive companies, connect with professionals, and grow your career in a supportive community."
+    },
+    "testimonials": {
+      "anonymous": "Anonymous",
+      "eyebrow": "Testimonials",
+      "title": " Voices From Our Community",
+      "description": "Stories from members across regions highlight how Jasmina keeps professional journeys safe, inclusive, and grounded in trust.",
+      "noTestimonials": "No testimonials available at the moment.",
+      "region": "Region"
     }
   },
   "Header": {
@@ -1137,6 +1145,12 @@
     "jobTitleOrCompanyPlaceholder": "Job title or Company",
     "location": "Location",
     "findJob": "Find Job",
+    "JobSearchResults": "Job Search Results",
+    "Found": "Found",
+    "jobsMatchingCriteria": "jobs matching criteria",
+    "Search": "Search",
+    "Tip": "Tip",
+    "TryAdjustingFilters": "Try adjusting your search filters or location to find more opportunities.",
     "Loadingjobs": "Loading jobs...",
     "Errorloadingjobs": "Error loading jobs.",
     "NoSavedjobsfound": "No Saved jobs found.",
@@ -1297,7 +1311,8 @@
       "selectApplicantPlaceholder": "Select an applicant to view details"
     },
     "companyNamePlaceholder": "Company Name",
-    "Notes": "Notes"
+    "Notes": "Notes",
+    "editJob": "Edit Job"
   },
   "Interviews": {
     "loading": "Loading Interviews...",
@@ -1546,7 +1561,10 @@
       "applyLinkPlaceholder": "https://company.com/careers",
       "postJob": "Post Job",
       "submitting": "Submitting..."
-    }
+    },
+    "JobTitle": "Job Title *",
+    "ContactNumber": "Contact Number",
+    "Apply": "Apply Via (Email)"
   },
   "blocked": "Your account has been blocked. Please contact support.",
   "messages": {
@@ -1562,5 +1580,67 @@
     "description": "We use cookies to enhance site navigation, analyze usage, and deliver personalized content. You can accept or reject non‑essential cookies.",
     "reject": "Reject",
     "accept": "Accept"
+  },
+  "Connections": {
+    "sendingRequest": "Sending connection request...",
+    "requestSentSuccess": "Connection request sent successfully!",
+    "requestSendFailed": "Failed to send connection request",
+    "connectionRemovedSuccess": "Connection removed successfully!",
+    "connectionRemoveFailed": "Failed to remove connection",
+    "fetchFailed": "Failed to fetch connections",
+    "somethingWentWrong": "Something went wrong!",
+    "error": "Error"
+  },
+  "ViewJobModal": {
+    "loading": "Loading...",
+    "loadingJobDetails": "Loading job details...",
+    "error": "Error",
+    "failedToLoadJobDetails": "Failed to load job details",
+    "jobNotFound": "Job Not Found",
+    "jobDetailsNotFound": "Job details not found",
+    "editJob": "Edit Job",
+    "jobDetails": "Job Details",
+    "jobInformation": "Job Information",
+    "selectSeniorityLevel": "Select Seniority Level",
+    "workHours": "Work Hours",
+    "compensationTimeline": "Compensation & Timeline",
+    "salaryRange": "Salary Range",
+    "postedDate": "Posted Date",
+    "deadline": "Deadline",
+    "contactInformation": "Contact Information",
+    "enterContactNumber": "Enter contact number",
+    "enterEmailForApplications": "Enter email for applications",
+    "enterCareerWebsiteUrl": "Enter career website URL",
+    "requirements": "Requirements",
+    "selectEducation": "Select Education",
+    "selectGenderPreference": "Select Gender Preference",
+    "genderPreference": "Gender Preference",
+    "jobDescription": "Job Description",
+    "enterJobDescription": "Enter job description",
+    "responsibilities": "Responsibilities",
+    "enterResponsibilities": "Enter responsibilities",
+    "requiredSkills": "Required Skills",
+    "enterSkill": "Enter a skill",
+    "jobTags": "Job Tags",
+    "requiredLanguages": "Required Languages",
+    "cancel": "Cancel",
+    "saving": "Saving...",
+    "saveChanges": "Save Changes",
+    "close": "Close",
+    "employmentType": "Employment Type",
+    "department": "Department",
+    "seniorityLevel": "Seniority Level",
+    "contactNumber": "Contact Number",
+    "applyVia": "Apply Via",
+    "careerWebsite": "Career Website",
+    "education": "Education",
+    "experience": "Experience",
+    "ContactNumber": "Contact Number",
+    "Apply": "apply Via",
+    "genderPreferenceOptions": {
+      "lgbtq": "LGBTQ+",
+      "nonlgbtq": "Non-LGBTQ+",
+      "all": "All"
+    }
   }
 }

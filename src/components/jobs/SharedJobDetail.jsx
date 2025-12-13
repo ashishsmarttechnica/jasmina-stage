@@ -1,9 +1,9 @@
 "use client";
 
-import SingleJobDetail from "./SingleJobDetail";
 import { useSingleJob } from "@/hooks/job/useGetJobs";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
+import SingleJobDetail from "./SingleJobDetail";
 
 const mapJobToDetail = (job, t) => {
   return {
@@ -31,9 +31,9 @@ const mapJobToDetail = (job, t) => {
       ? Array.isArray(job.responsibilities)
         ? job.responsibilities
         : job.responsibilities
-            .replace(/<[^>]+>/g, "")
-            .split("\n")
-            .filter(Boolean)
+          .replace(/<[^>]+>/g, "")
+          .split("\n")
+          .filter(Boolean)
       : [],
     requiredSkills: job.requiredSkills
       ? Array.isArray(job.requiredSkills)
@@ -62,8 +62,17 @@ const SharedJobDetail = ({ jobId }) => {
 
   if (isLoading) {
     return (
-      <div className="rounded-lg mt-5 p-4 text-sm text-gray-600 shadow-sm">
-        {t("loadingJobs")}
+      <div className="mt-5 max-w-3xl mx-auto space-y-4">
+        <div className="h-6 w-1/3 rounded-md bg-gray-200 animate-pulse" />
+        <div className="rounded-lg border border-gray-100 bg-white p-4 shadow-sm space-y-3">
+          <div className="h-4 w-1/2 rounded bg-gray-200 animate-pulse" />
+          <div className="h-4 w-2/3 rounded bg-gray-100 animate-pulse" />
+          <div className="h-32 w-full rounded bg-gray-100 animate-pulse" />
+        </div>
+        <div className="rounded-lg border border-gray-100 bg-white p-4 shadow-sm space-y-3">
+          <div className="h-4 w-1/4 rounded bg-gray-200 animate-pulse" />
+          <div className="h-20 w-full rounded bg-gray-100 animate-pulse" />
+        </div>
       </div>
     );
   }

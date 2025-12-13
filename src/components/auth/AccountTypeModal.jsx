@@ -54,28 +54,28 @@ const AccountTypeModal = ({ isOpen, onClose, onSelectAccountType, isLoading }) =
 
           <div
             className={`flex cursor-pointer items-center gap-3 rounded-md border p-3 transition-all ${
-              selectedType === "Company"
+              selectedType === "NGO / Company"
                 ? "border-primary bg-secondary/20"
                 : "border-gray hover:border-primary/30"
             }`}
-            onClick={() => setSelectedType("Company")}
+            onClick={() => setSelectedType("NGO / Company")}
           >
             <div className="relative flex h-5 w-5 items-center justify-center">
               <input
                 type="radio"
                 id="company-type"
                 name="accountType"
-                value="Company"
-                checked={selectedType === "Company"}
-                onChange={() => setSelectedType("Company")}
+                value="NGO / Company"
+                checked={selectedType === "NGO / Company"}
+                onChange={() => setSelectedType("NGO / Company")}
                 className="absolute opacity-0"
               />
               <div
                 className={`flex h-5 w-5 items-center justify-center rounded-full border ${
-                  selectedType === "Company" ? "border-primary" : "border-gray-400"
+                  selectedType === "NGO / Company" ? "border-primary" : "border-gray-400"
                 }`}
               >
-                {selectedType === "Company" && (
+                {selectedType === "NGO / Company" && (
                   <div className="bg-primary h-3 w-3 rounded-full"></div>
                 )}
               </div>

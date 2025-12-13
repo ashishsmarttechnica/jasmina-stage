@@ -1,3 +1,4 @@
+import galleryIcon from "@/assets/gallery.png";
 import ImageFallback from "@/common/shared/ImageFallback";
 import { useGenerateChatRoom } from "@/hooks/chat/useGenerateChatRoom";
 import { useRemoveConnection } from "@/hooks/connections/useConnections";
@@ -6,12 +7,11 @@ import getImg from "@/lib/getImg";
 import useConnectionsStore from "@/store/connections.store";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import { useState } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { FiMessageSquare, FiTrash2 } from "react-icons/fi";
 import { toast } from "react-toastify";
-import Image from "next/image";
-import galleryIcon from "@/assets/gallery.png";
 const CompanyCard = ({ company, userData, profileId }) => {
   // Current logged in user id from cookies
   const currentUserId = Cookies.get("userId");

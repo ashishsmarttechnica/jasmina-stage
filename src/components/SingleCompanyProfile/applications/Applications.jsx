@@ -9,10 +9,12 @@ import useSingleCompanyAppliedJobStore from "@/store/singleCopanyAppliedJob.stor
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { FaEdit } from "react-icons/fa";
 import { FaEye } from "react-icons/fa6";
 import { FiChevronDown, FiMoreVertical } from "react-icons/fi";
 import { getRelativeTime } from "../../../utils/dateUtils";
 import SearchBar from "./SearchBar";
+import { RiEdit2Fill } from "react-icons/ri";
 
 const Applications = () => {
   const router = useRouter();
@@ -31,6 +33,7 @@ const Applications = () => {
   // New state for view job modal and dropdown
   const [viewJobModalOpen, setViewJobModalOpen] = useState(false);
   const [selectedJobId, setSelectedJobId] = useState(null);
+  const [isEditMode, setIsEditMode] = useState(false);
   const [moreOptionsDropdownId, setMoreOptionsDropdownId] = useState(null);
   const moreOptionsRefs = useRef({});
 
@@ -130,6 +133,14 @@ const Applications = () => {
   // New handlers for view job functionality
   const handleViewJob = (jobId) => {
     setSelectedJobId(jobId);
+    setIsEditMode(false);
+    setViewJobModalOpen(true);
+    setMoreOptionsDropdownId(null); // Close dropdown
+  };
+
+  const handleEditJob = (jobId) => {
+    setSelectedJobId(jobId);
+    setIsEditMode(true);
     setViewJobModalOpen(true);
     setMoreOptionsDropdownId(null); // Close dropdown
   };
@@ -142,6 +153,7 @@ const Applications = () => {
   const closeViewJobModal = () => {
     setViewJobModalOpen(false);
     setSelectedJobId(null);
+    setIsEditMode(false);
   };
 
   // Close dropdown when clicking outside
@@ -252,13 +264,12 @@ const Applications = () => {
                       handleStatusClick(e, item._id, item.status);
                     }}
                     disabled={isUpdatingStatus}
-                    className={`inline-flex cursor-pointer items-center rounded-[4px] px-2 py-1 text-[12px] font-medium transition-all duration-200 hover:opacity-80 sm:px-3 sm:text-[13px] ${
-                      getStatusLabel(item.status) === "Open"
-                        ? "bg-[#DCFCE7] text-[#166534]"
-                        : getStatusLabel(item.status) === "Closed"
-                          ? "bg-red-100 text-red-700"
-                          : "bg-yellow-100 text-yellow-700"
-                    } ${isUpdatingStatus ? "cursor-not-allowed opacity-50" : ""}`}
+                    className={`inline-flex cursor-pointer items-center rounded-[4px] px-2 py-1 text-[12px] font-medium transition-all duration-200 hover:opacity-80 sm:px-3 sm:text-[13px] ${getStatusLabel(item.status) === "Open"
+                      ? "bg-[#DCFCE7] text-[#166534]"
+                      : getStatusLabel(item.status) === "Closed"
+                        ? "bg-red-100 text-red-700"
+                        : "bg-yellow-100 text-yellow-700"
+                      } ${isUpdatingStatus ? "cursor-not-allowed opacity-50" : ""}`}
                   >
                     {isUpdatingStatus && item._id === openDropdownId ? (
                       <>
@@ -369,8 +380,19 @@ const Applications = () => {
                         <FaEye className="mr-2 h-4 w-4" />
                         {t("viewJob")}
                       </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleEditJob(item._id);
+                        }}
+                        className="flex w-full items-center px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-50"
+                      >
+                        <RiEdit2Fill className="mr-2 h-4 w-4" />
+                        {t("editJob")}
+                      </button>
                     </div>
                   )}
+
                 </div>
               </div>
             </div>
@@ -427,7 +449,7 @@ const Applications = () => {
       )}
 
       {/* View Job Modal */}
-      <ViewJobModal isOpen={viewJobModalOpen} onClose={closeViewJobModal} jobId={selectedJobId} />
+      <ViewJobModal isOpen={viewJobModalOpen} onClose={closeViewJobModal} jobId={selectedJobId} isEditMode={isEditMode} />
     </div>
   );
 };

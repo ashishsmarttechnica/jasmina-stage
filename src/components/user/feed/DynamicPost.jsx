@@ -169,7 +169,7 @@ const DynamicPost = ({ post, isSinglePost = false, onLike, onUnlike, isLiking, i
               if (post?.userId?._id) {
                 router.push(`/single-user/${post.userId._id}`);
               } else if (post?.companyId?._id) {
-                router.push(`/company/single-company/${post.companyId._id}`);
+                router.push(`/company/single-company/${post.companyId._id}?fromConnections=true`);
               }
             }}
           >
@@ -189,7 +189,7 @@ const DynamicPost = ({ post, isSinglePost = false, onLike, onUnlike, isLiking, i
                 if (post?.userId?._id) {
                   router.push(`/single-user/${post.userId._id}`);
                 } else if (post?.companyId?._id) {
-                  router.push(`/company/single-company/${post.companyId._id}`);
+                  router.push(`/company/single-company/${post.companyId._id}?fromConnections=true`);
                 }
               }}
             >

@@ -16,24 +16,36 @@ export const useSearchGlobalJobs = () => {
       setError(null);
     },
     onSuccess: (data, variables) => {
-      // Handle potential nested data structure (data.data.jobs vs data.jobs)
-      const jobs = data?.data?.jobs || data?.jobs || [];
-      const total = data?.data?.total || data?.total || 0;
-      const totalPages = data?.data?.totalPages || data?.totalPages || 1;
+      try {
+        // Handle potential nested data structure (data.data.jobs vs data.jobs)
+        const jobs = data?.data?.jobs || data?.jobs || [];
+        const total = data?.data?.total || data?.total || 0;
+        const totalPages = data?.data?.totalPages || data?.totalPages || 1;
 
-      if (variables.isAppend) {
-        appendJobs(jobs);
-      } else {
-        setJobs(jobs);
+        if (variables.isAppend) {
+          appendJobs(jobs);
+        } else {
+          setJobs(jobs);
+        }
+
+        setPagination({ total, totalPages });
+        setLoading(false);
+      } catch (err) {
+        console.error("Error processing search results:", err);
+        setError(err);
+        setLoading(false);
       }
-      
-      setPagination({ total, totalPages });
-      setLoading(false);
     },
     onError: (error) => {
-      console.error("Error searching global jobs:", error);
-      setError(error);
-      setLoading(false);
+      // Prevent unhandled promise rejections
+      try {
+        console.error("Error searching global jobs:", error);
+        setError(error?.response?.data || error?.message || error);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error in error handler:", err);
+        setLoading(false);
+      }
     },
   });
 };

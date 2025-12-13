@@ -44,6 +44,7 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
   const categoryOptions = useSkillCategoryOptions();
   const [selectedResumeFile, setSelectedResumeFile] = useState(null);
   const [existingResume, setExistingResume] = useState(descriptionData?.resume || null);
+  const [resumeRemoved, setResumeRemoved] = useState(false);
   const [resumeError, setResumeError] = useState("");
   // console.log(selectedResumeFile, "selectedResumeFile");
 
@@ -55,7 +56,7 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
       setExistingResume(user?.resume);
       // console.log(existingResume, "existingResume");
     }
-  }, [descriptionData]);
+  }, [descriptionData, user?.resume]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -167,12 +168,16 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
 
     if (selectedResumeFile instanceof File) {
       formData.append("resume", selectedResumeFile);
+    } else if (resumeRemoved && !existingResume) {
+      // Explicitly tell backend to remove resume
+      formData.append("resumeRemoved", "true");
+      formData.append("resume", "");
     }
     updateProfile(formData, {
       onSuccess: (res) => {
         if (res.success) {
           onClose();
-          window.location.reload();
+          // window.location.reload();
         }
       },
     });
@@ -207,6 +212,17 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
   const handleRemoveSelectedResume = () => {
     setSelectedResumeFile(null);
     setResumeError("");
+    setResumeRemoved(true);
+    if (resumeInputRef.current) {
+      resumeInputRef.current.value = "";
+    }
+  };
+
+  const handleRemoveExistingResume = () => {
+    setExistingResume(null);
+    setSelectedResumeFile(null);
+    setResumeError("");
+    setResumeRemoved(true);
     if (resumeInputRef.current) {
       resumeInputRef.current.value = "";
     }
@@ -279,44 +295,77 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
           />
         </div>
         <div className="rounded-xl bg-gray-50 p-4 shadow-sm">
-          <div className="my-2 flex flex-col gap-2">
-            <div className="text-lg font-semibold text-gray-800">{r("title")}</div>
+          <div className="my-2 flex flex-col gap-3">
+            <div>
+              <div className="text-lg font-semibold text-gray-800">{r("title")}</div>
+              <p className="mt-1 text-xs text-gray-500">
+                {r("docType")}
+              </p>
+            </div>
+
             {existingResume && !selectedResumeFile ? (
-              <div className="flex items-center justify-between rounded-md border border-gray-300 bg-white px-4 py-2 shadow-sm">
+              <div className="flex flex-col gap-2 rounded-md border border-gray-200 bg-white px-4 py-3 shadow-sm sm:flex-row sm:items-center sm:justify-between">
                 <a
                   href={getImg(existingResume)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className=" font-medium hover:underline"
+                  className="max-w-xs truncate text-sm font-medium text-primary-600 hover:underline"
                 >
                   {r("viewExistingCv")}
                 </a>
-                <Button
-                  size="sm"
-                  onClick={() => setExistingResume(null)}
-                  className="ml-3 rounded-md border border-red-300 bg-red-50 px-3 py-1 text-xs font-medium text-red-600 hover:bg-red-100 w-[110px]"
-                >
-                  {r("Replace")}
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Button
+                    size="sm"
+                    onClick={() => {
+                      // Replace: clear current resume and open file picker
+                      handleRemoveExistingResume();
+                      if (resumeInputRef.current) {
+                        resumeInputRef.current.click();
+                      }
+                    }}
+                    className="rounded-md border border-primary-200 bg-primary-50 px-3 py-1 text-xs font-medium text-primary-700 hover:bg-primary-100"
+                  >
+                    {r("Replace")}
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={handleRemoveExistingResume}
+                    className="rounded-md border border-red-200 bg-red-50 px-3 py-1 text-xs font-medium text-red-600 hover:bg-red-100"
+                  >
+                    {r("Remove")}
+                  </Button>
+                </div>
               </div>
             ) : selectedResumeFile ? (
-              <div className="flex items-center justify-between rounded-md border border-gray-300 bg-white px-4 py-2 shadow-sm">
-                <span className="text-sm text-gray-700 truncate mr-3" title={selectedResumeFile.name}>{selectedResumeFile.name}</span>
-                <Button
-                  size="sm"
-                  onClick={handleRemoveSelectedResume}
-                  className="ml-3 rounded-md border border-red-300 bg-red-50 px-3 py-1 text-xs font-medium text-red-600 hover:bg-red-100 w-[110px]"
+              <div className="flex flex-col gap-2 rounded-md border border-gray-200 bg-white px-4 py-3 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+                <span
+                  className="mr-3 max-w-xs truncate text-sm text-gray-700"
+                  title={selectedResumeFile.name}
                 >
-                  {r("Remove")}
-                </Button>
+                  {selectedResumeFile.name}
+                </span>
+                <div className="flex items-center gap-2">
+                  <Button
+                    size="sm"
+                    onClick={handleRemoveSelectedResume}
+                    className="rounded-md border border-red-200 bg-red-50 px-3 py-1 text-xs font-medium text-red-600 hover:bg-red-100"
+                  >
+                    {r("Remove")}
+                  </Button>
+                </div>
               </div>
             ) : (
               <div>
-                <label htmlFor="cv" className="flex w-full cursor-pointer flex-col items-center justify-center rounded-md border border-dashed border-gray-300 bg-white px-4 py-6 text-center shadow-sm hover:border-primary-500 hover:bg-gray-50">
-                  <span className="text-sm text-gray-600">
-                    {selectedResumeFile ? selectedResumeFile.name : `${r("ClickToUpload")}`}
+                <label
+                  htmlFor="cv"
+                  className="flex w-full cursor-pointer flex-col items-center justify-center rounded-md border border-dashed border-gray-300 bg-white px-4 py-6 text-center shadow-sm transition hover:border-primary-500 hover:bg-gray-50"
+                >
+                  <span className="text-sm text-gray-700">
+                    {r("ClickToUpload")}
                   </span>
-                  <span className="mt-1 text-xs text-gray-400">{r("docType")}</span>
+                  <span className="mt-1 text-xs text-gray-400">
+                    {r("docType")}
+                  </span>
                   <input
                     id="cv"
                     type="file"

@@ -2,6 +2,7 @@
 import galleryIcon from "@/assets/gallery.png";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { AiOutlineClear } from "react-icons/ai";
 import { FaChevronDown } from "react-icons/fa6";
 import { FiSearch } from "react-icons/fi";
 import { HiOutlineLocationMarker } from "react-icons/hi";
@@ -50,10 +51,10 @@ const JobHeader = ({ filters, setFilters, onFindJob, showSaveJobsLink = true }) 
   };
 
   return (
-    <div className="flex flex-col items-stretch justify-between gap-1 rounded-md bg-white px-2 py-1 shadow-sm sm:items-center sm:gap-1 lg:flex-row 2xl:mx-0">
-      <div className="flex w-full flex-col justify-center gap-1 py-1 lg:flex-row lg:justify-start lg:gap-0">
-        <div className="text-grayBlueText flex w-full items-center justify-around rounded-md border border-black/10 px-1 py-1 lg:max-w-[224px] lg:border-none xl:w-[240px] xl:max-w-[240px]">
-          <FiSearch className="text-grayBlueText mr-2 text-2xl lg:text-3xl" />
+    <div className="flex flex-col items-stretch  gap-1 rounded-md bg-white px-2 py-1 shadow-sm sm:items-center sm:gap-1 lg:flex-row 2xl:mx-0">
+      <div className="flex w-full flex-col  gap-1 py-1 lg:flex-row  lg:gap-0">
+        <div className="text-grayBlueText flex w-full items-center  rounded-md border border-black/10 px-1 py-1 lg:max-w-[224px] lg:border-none xl:w-[240px] xl:max-w-[200px]">
+          <FiSearch className="text-grayBlueText mr-2 text-2xl lg:text-2xl" />
           <input
             type="text"
             placeholder={t("jobTitleOrCompanyPlaceholder")}
@@ -83,8 +84,8 @@ const JobHeader = ({ filters, setFilters, onFindJob, showSaveJobsLink = true }) 
           </div>
         </div>
       </div>
-      <div className="flex w-full flex-col sm:flex-row gap-2 pb-0.5 lg:max-w-[216px] xl:pr-2">
-        <div className="flex gap-2 w-full">
+      <div className="flex w-full flex-col sm:flex-row gap-2 pb-0.5 lg:max-w-[250px] xl:pr-2">
+        <div className="flex gap-2 w-full flex-wrap lg:flex-nowrap">
           <div className="text-grayBlueText w-1/2 flex items-center rounded-md border border-black/10 px-3 sm:w-[40%] lg:hidden lg:max-w-[157px] lg:border-x 2xl:w-[157px]">
             <HiOutlineLocationMarker className="text-grayBlueText mr-2 text-2xl lg:text-3xl" />
             <input
@@ -95,11 +96,30 @@ const JobHeader = ({ filters, setFilters, onFindJob, showSaveJobsLink = true }) 
               onChange={(e) => setLocationInput(e.target.value)}
             />
           </div>
+          <div
+            className="text-grayBlueText text-sm text-[14px] leading-[21px] cursor-pointer"
+            onClick={() => {
+              setSearchInput("");
+              setLocationInput("");
+              setSelected(t("all"));
+              setShowRemoteJobsOnly(false);
 
-          <div className="relative flex-1 w-1/2">
+              setFilters({
+                search: "",
+                location: "",
+                lgbtq: false,
+                remote: false,
+              });
+            }}
+          >
+            <AiOutlineClear className="text-grayBlueText text-3xl cursor-pointer text-center" />
+
+          </div>
+
+          <div className="relative flex-1 min-w-[150px] sm:min-w-[180px] lg:min-w-0">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="bg-uiLight shadow-job-dropdown flex w-full items-center justify-between rounded-md px-3 py-1"
+              className="bg-uiLight shadow-job-dropdown flex w-full items-center justify-between rounded-md px-3 py-1 whitespace-nowrap"
             >
               <div className="text-grayBlueText flex items-center gap-2 text-[16px]">
                 {selected === t("all")}
@@ -129,7 +149,7 @@ const JobHeader = ({ filters, setFilters, onFindJob, showSaveJobsLink = true }) 
                       setSelected(option);
                       setIsOpen(false);
                     }}
-                    className="text-grayBlueText cursor-pointer px-4 py-2 text-sm hover:bg-gray-100"
+                    className="text-grayBlueText cursor-pointer px-4 py-2 text-xs hover:bg-gray-100"
                   >
                     {option === t("lgbtqOption") && (
                       <Image
@@ -156,31 +176,15 @@ const JobHeader = ({ filters, setFilters, onFindJob, showSaveJobsLink = true }) 
               </button>
             </Link>
           )} */}
-          <div
-  className="text-grayBlueText text-sm text-[14px] leading-[21px] cursor-pointer"
-  onClick={() => {
-    setSearchInput("");
-    setLocationInput("");
-    setSelected(t("all"));
-    setShowRemoteJobsOnly(false);
-
-    setFilters({
-      search: "",
-      location: "",
-      lgbtq: false,
-      remote: false,
-    });
-  }}
->
-  Clear Filters
-</div>
-
           <button
             className="rounded-sm border border-white bg-[#0F8200] px-2 py-1.5 text-[13px] !leading-[15px] font-medium whitespace-nowrap text-white transition-all duration-200 hover:border hover:border-[#0F8200] hover:bg-transparent hover:text-[#0F8200]"
             onClick={handleFindJob}
           >
             {t("findJob")}
           </button>
+
+
+
         </div>
       </div>
     </div>

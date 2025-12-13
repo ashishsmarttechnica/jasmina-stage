@@ -2,6 +2,7 @@
 import { getUser } from "@/api/auth.api";
 import GoogleIcon from "@/assets/form/GoogleIcon.png";
 import { useRouter } from "@/i18n/navigation";
+import { routing } from "@/i18n/routing";
 import axios from "@/lib/axios";
 import { auth, googleProvider } from "@/lib/firebase";
 import useAuthStore from "@/store/auth.store";
@@ -20,10 +21,53 @@ const GoogleLoginButton = ({ redirectPath }) => {
   const setToken = useAuthStore((state) => state.setToken);
   const setUser = useAuthStore((state) => state.setUser);
   const openUserBlockedModal = useModalStore((state) => state.openUserBlockedModal);
-  const normalizedRedirect =
-    redirectPath && typeof redirectPath === "string" && redirectPath.startsWith("/")
-      ? redirectPath
-      : null;
+
+  // Normalize redirect path - strip locale prefix if present
+  const normalizedRedirect = (() => {
+    if (!redirectPath || typeof redirectPath !== "string" || !redirectPath.startsWith("/")) {
+      return null;
+    }
+
+    // Decode URL-encoded path
+    let path = redirectPath;
+    try {
+      path = decodeURIComponent(path);
+    } catch {
+      // If decoding fails, use original path
+    }
+
+    // Strip locale prefix if present (e.g., /en/jobs/... -> /jobs/...)
+    const pathSegments = path.split("/").filter(Boolean);
+    if (pathSegments.length > 0 && routing.locales.includes(pathSegments[0])) {
+      pathSegments.shift();
+      path = "/" + pathSegments.join("/");
+    }
+
+    // Ensure path starts with /
+    if (!path.startsWith("/")) {
+      path = "/" + path;
+    }
+
+    // Clean up the path
+    path = path.replace(/undefined/g, "");
+
+    // If path is /jobs/apply-now/..., redirect to /jobs with jobId as query param
+    if (path.startsWith("/jobs/apply-now/")) {
+      const pathParts = path.split("/").filter(Boolean);
+      // Extract jobId from path like /jobs/apply-now/{jobId}/...
+      if (pathParts.length >= 3 && pathParts[0] === "jobs" && pathParts[1] === "apply-now") {
+        const jobId = pathParts[2];
+        return `/jobs?selectedJobId=${jobId}`;
+      }
+    }
+
+    // Validate path format
+    if (path.startsWith("/jobs") || path.startsWith("/company/") || path.startsWith("/feed") || path.startsWith("/user/") || path.startsWith("/post/") || path.startsWith("/pagedetail/") || path === "/") {
+      return path;
+    }
+
+    return null;
+  })();
 
   const handleGoogleLogin = async () => {
     setIsLoading(true);
@@ -77,15 +121,31 @@ const GoogleLoginButton = ({ redirectPath }) => {
 
           toast.success(t("LoginSuccess"));
 
+          // Check if redirect was already used (stored in sessionStorage)
+          // Only use redirect if it's a job apply-now path and hasn't been used yet
+          const redirectUsed = typeof window !== "undefined" ? sessionStorage.getItem("redirectUsed") : null;
+          const isJobApplyRedirect = normalizedRedirect && normalizedRedirect.includes("selectedJobId");
+
           // Redirect based on role
-          if (normalizedRedirect) {
+          if (isJobApplyRedirect && !redirectUsed) {
+            // Mark redirect as used so it won't work again after logout/login
+            if (typeof window !== "undefined") {
+              sessionStorage.setItem("redirectUsed", "true");
+            }
             router.push(normalizedRedirect);
-          } else if (role === "user") {
-            router.push("/feed");
-          } else if (role === "company") {
-            router.push("/company/feed");
           } else {
-            router.push("/dashboard");
+            // Clear redirect flag if it exists (for normal logins or if redirect was already used)
+            if (typeof window !== "undefined") {
+              sessionStorage.removeItem("redirectUsed");
+            }
+
+            if (role === "user") {
+              router.push("/feed");
+            } else if (role === "company") {
+              router.push("/company/feed");
+            } else {
+              router.push("/dashboard");
+            }
           }
         } else {
           toast.error(response.data.message || t("LoginFailed"));

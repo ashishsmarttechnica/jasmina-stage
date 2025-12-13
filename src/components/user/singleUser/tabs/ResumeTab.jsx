@@ -9,15 +9,22 @@ const ResumeTab = ({ resume }) => {
   const t = useTranslations("UserProfile.profile.singleprofileTab");
 
   // If resume is missing or empty
-  if (!resume || (typeof resume === "string" && resume.trim() === "")) {
+  if (
+    !resume ||                         // null or undefined
+    resume === "null" ||               // string "null"
+    (typeof resume === "string" && resume.trim() === "") // empty or spaces
+  ) {
     return (
       <div className="p-2 sm:p-4">
         <div className="px-2 sm:px-[30px]">
-          <p className="text-sm text-gray-500 sm:text-base">{t('Noresumedocumentavailable')}</p>
+          <p className="text-sm text-gray-500 sm:text-base">
+            {t('Noresumedocumentavailable')}
+          </p>
         </div>
       </div>
     );
   }
+
 
   // If resume is a string (file URL or file name)
   if (typeof resume === "string") {

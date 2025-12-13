@@ -1,7 +1,7 @@
 "use client";
 import JobSearchResults from "@/components/jobSearch/JobSearchResults";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Header from "../../../components/header/Header";
 
 import { useSearchGlobalJobs } from "@/hooks/job/useSearchGlobalJobs";
@@ -16,9 +16,15 @@ function SearchJobDetailsContent() {
     const { jobs, isLoading: loading, error, pagination } = useJobStore();
     const [currentPage, setCurrentPage] = useState(1);
     const { mutateAsync: searchJobs } = useSearchGlobalJobs();
+    const isSearchingRef = useRef(false);
 
     useEffect(() => {
         setCurrentPage(1);
+
+        // Prevent multiple simultaneous calls
+        if (isSearchingRef.current) return;
+
+        isSearchingRef.current = true;
         searchJobs({
             search,
             location,
@@ -26,11 +32,20 @@ function SearchJobDetailsContent() {
             page: 1,
             limit: 5,
             isAppend: false
-        });
-    }, [search, location, lgbtq, searchJobs]);
+        })
+            .catch((err) => {
+                // Silently handle errors - they're already handled in the hook
+                console.error("Search error:", err);
+            })
+            .finally(() => {
+                isSearchingRef.current = false;
+            });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [search, location, lgbtq]);
 
     useEffect(() => {
-        if (currentPage > 1) {
+        if (currentPage > 1 && !isSearchingRef.current) {
+            isSearchingRef.current = true;
             searchJobs({
                 search,
                 location,
@@ -38,9 +53,17 @@ function SearchJobDetailsContent() {
                 page: currentPage,
                 limit: 5,
                 isAppend: true
-            });
+            })
+                .catch((err) => {
+                    // Silently handle errors - they're already handled in the hook
+                    console.error("Search error:", err);
+                })
+                .finally(() => {
+                    isSearchingRef.current = false;
+                });
         }
-    }, [currentPage, searchJobs]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentPage, search, location, lgbtq]);
 
     return (
         <>

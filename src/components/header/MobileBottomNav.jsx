@@ -40,9 +40,14 @@ export default function MobileBottomNav() {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
-    // Hide navigation on auth pages and home pages
+    // Hide navigation on auth pages and marketing / root pages
     const shouldHide = () => {
         if (!pathname) return false;
+
+        // Always hide on marketing home: "/", "/en", "/ar", etc.
+        if (pathname === "/" || /^\/[a-z]{2}\/?$/.test(pathname)) {
+            return true;
+        }
 
         // Hide on auth routes (login, signup, etc.)
         if (

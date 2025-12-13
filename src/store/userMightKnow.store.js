@@ -1,49 +1,43 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
-const useUserMightKnowStore = create(
-  devtools(
-    (set) => ({
-      suggestions: [],
-      loading: true,
-      error: null,
+const initialState = {
+  suggestions: { results: [] },
+  loading: true,
+  error: null,
+};
 
-      setSuggestions: (suggestions) => set({ suggestions }),
-      setLoading: (loading) => set({ loading }),
-      setError: (error) => set({ error }),
+const buildStore = (name) =>
+  create(
+    devtools(
+      (set) => ({
+        ...initialState,
+        setSuggestions: (suggestions) => set({ suggestions }),
+        setLoading: (loading) => set({ loading }),
+        setError: (error) => set({ error }),
+        removeSuggestion: (id) =>
+          set((state) => {
+            const current = state.suggestions;
 
-      // Reset store
-      resetStore: () =>
-        set({
-          suggestions: [],
-          loading: true,
-          error: null,
-        }),
-    }),
-    { name: "UserMightKnowStore" }
-  )
-);
+            if (!current?.results) {
+              return { suggestions: current };
+            }
+
+            return {
+              suggestions: {
+                ...current,
+                results: current.results.filter((item) => item._id !== id),
+              },
+            };
+          }),
+        resetStore: () => set(initialState),
+      }),
+      { name }
+    )
+  );
+
+const useUserMightKnowStore = buildStore("UserMightKnowStore");
 
 export default useUserMightKnowStore;
 
-export const useCompanySuggestionsStore = create(
-  devtools(
-    (set) => ({
-      suggestions: [],
-      loading: true,
-      error: null,
-
-      setSuggestions: (suggestions) => set({ suggestions }),
-      setLoading: (loading) => set({ loading }),
-      setError: (error) => set({ error }),
-
-      resetStore: () =>
-        set({
-          suggestions: [],
-          loading: true,
-          error: null,
-        }),
-    }),
-    { name: "CompanySuggestionsStore" }
-  )
-);
+export const useCompanySuggestionsStore = buildStore("CompanySuggestionsStore");

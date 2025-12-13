@@ -18,7 +18,7 @@ const DefaultJob = ({ filters, setFilters }) => {
         <div className="">
           <JobCards filters={filters} />
         </div>
-        <div className="">{/* <SingleJobDetail /> */}</div>
+        <div className=" ">{/* <SingleJobDetail /> */}</div>
       </div>
     </div>
   );

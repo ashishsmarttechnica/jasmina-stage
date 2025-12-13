@@ -16,6 +16,7 @@ import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import noImage2 from "../../../../public/asssets/no-img.png";
 
 // Import social media icons
 const LinkedInIcon = () => (
@@ -83,11 +84,11 @@ const UserBannerProfile = ({
 }) => {
   const t = useTranslations("CompanyProfile.singleCompany");
   const params = useParams();
-  console.log(userData, "user detailsssssss")
+  console.log(userData, "user detailsssssss");
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  // console.log(searchParams, "searchhhh"); //   ReadonlyURLSearchParams {size: 1}        fromConnections=true 
+  // console.log(searchParams, "searchhhh"); //   ReadonlyURLSearchParams {size: 1}        fromConnections=true
   const paramsUserId = params?.id;
   const localUserId = Cookies.get("userId");
   const isCurrentUser = paramsUserId === localUserId;
@@ -256,8 +257,8 @@ const UserBannerProfile = ({
       Swal.fire({
         icon: "info",
         title: t("connectionRequiredTitle"), // e.g. "Connection Required"
-        text: t("connectionRequiredText"),   // e.g. "You need to add this user to your connections before sending a message."
-        confirmButtonText: t("ok"),          // custom OK button text
+        text: t("connectionRequiredText"), // e.g. "You need to add this user to your connections before sending a message."
+        confirmButtonText: t("ok"), // custom OK button text
       });
       return;
     }
@@ -282,7 +283,6 @@ const UserBannerProfile = ({
       toast.error("Unable to start chat. User information not available.");
     }
   };
-
 
   const handleContactClick = (item) => {
     if (isCreateConnectionLoading) return;
@@ -335,18 +335,15 @@ const UserBannerProfile = ({
         <div className="flex flex-col items-start justify-between gap-6 sm:flex-row md:items-center">
           <div className="flex w-full flex-col gap-0.5 px-2 pt-5 sm:pt-0">
             <div className="flex gap-2">
-
               <p className="text-xl font-bold text-black md:text-xl">
                 {userData?.profile?.fullName || t("fullName")}
               </p>
-              {userData?.profile?.isPrivate === false && userData?.profile?.pronounce &&
-                (
-                  <>
-
-                    <span className="text-slate-600 mt-0.5 "></span> <span className="text-xs font-medium text-slate-800 mt-1.5 ">{` (${userData?.profile?.pronounce})`}</span>
-                  </>
-                )
-              }
+              {userData?.profile?.isPrivate === false && userData?.profile?.pronounce && (
+                <>
+                  <span className="mt-0.5 text-slate-600"></span>{" "}
+                  <span className="mt-1.5 text-xs font-medium text-slate-800">{` (${userData?.profile?.pronounce})`}</span>
+                </>
+              )}
             </div>
             <p className="text-[13px] font-normal md:text-[15px]">
               {userData?.preferences?.jobRole || t("jobRole")}
@@ -354,17 +351,17 @@ const UserBannerProfile = ({
             <p className="text-xs font-normal text-[#888DA8]">
               {userData?.profile?.location || t("location")}
             </p>
-          {userData?.profile?.availabilty?.trim() ? (
-  <div className="flex gap-2">
-    <div className="mt-1 flex items-center gap-1 text-xs font-normal text-[#888DA8]">
-      <div className="font-bold text-nowrap">{t("availabilityLabel")}</div>
-      <div>
-        <span>{availabilityIcons[userData.profile.availabilty] || ""}</span>{" "}
-        {userData.profile.availabilty}
-      </div>
-    </div>
-  </div>
-) : null}
+            {userData?.profile?.availabilty?.trim() ? (
+              <div className="flex gap-2">
+                <div className="mt-1 flex items-center gap-1 text-xs font-normal text-[#888DA8]">
+                  <div className="font-bold text-nowrap">{t("availabilityLabel")}</div>
+                  <div>
+                    <span>{availabilityIcons[userData.profile.availabilty] || ""}</span>{" "}
+                    {userData.profile.availabilty}
+                  </div>
+                </div>
+              </div>
+            ) : null}
 
             <div>
               {(() => {
@@ -376,12 +373,15 @@ const UserBannerProfile = ({
                   <>
                     <div className="flex flex-wrap">
                       {userData?.profile?.short_bio && (
-                        <span className="text-xs  text-[#888DA8] font-medium flex text-nowrap"><div className="font-bold pr-2 text-nowrap">{t("shortBioLabel")}</div>{preview} </span>
+                        <span className="flex text-xs font-medium text-nowrap text-[#888DA8]">
+                          <div className="pr-2 font-bold text-nowrap">{t("shortBioLabel")}</div>
+                          {preview}{" "}
+                        </span>
                       )}
                       {isLong && (
                         <button
                           type="button"
-                          className="ml-1 text-primary text-[12px]"
+                          className="text-primary ml-1 text-[12px]"
                           onClick={() => setIsBioModalOpen(true)}
                         >
                           {t("showMore")}
@@ -393,7 +393,7 @@ const UserBannerProfile = ({
               })()}
             </div>
             {/* Social Media Links with Icons */}
-            <div className="flex items-center gap-5 mt-2">
+            <div className="mt-2 flex items-center gap-5">
               {userData?.profile?.linkedin && (
                 <a
                   href={userData.profile.linkedin}
@@ -478,28 +478,20 @@ const UserBannerProfile = ({
                       </>
                     )}
                     {connectionStatus === "not connected" && (
-                      <button
-                        className="connect-btn"
-                        onClick={() => handleContactClick(userData)}
-                      >
+                      <button className="connect-btn" onClick={() => handleContactClick(userData)}>
                         {t("Addconnection")}
                       </button>
                     )}
                   </>
                 ) : (
                   connectionStatus === "not connected" && (
-                    <button
-                      className="connect-btn"
-                      onClick={() => handleContactClick(userData)}
-                    >
+                    <button className="connect-btn" onClick={() => handleContactClick(userData)}>
                       {t("Addconnection")}
                     </button>
                   )
                 )}
 
-
-
-                {(!fromConnectionRequest && connectionStatus === "pending") && (
+                {!fromConnectionRequest && connectionStatus === "pending" && (
                   <button className="connect-btn cursor-not-allowed opacity-60" disabled>
                     {t("requestSent")}
                   </button>
@@ -528,18 +520,22 @@ const UserBannerProfile = ({
                 <button className="flag-btn group" onClick={() => setIsModalOpen(true)}>
                   <Flag className="stroke-grayBlueText group-hover:stroke-primary transition-all duration-200" />
                 </button>
-                <ReportModel isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} userData={userData} />
+                <ReportModel
+                  isOpen={isModalOpen}
+                  onClose={() => setIsModalOpen(false)}
+                  userData={userData}
+                />
               </div>
             )}
           </div>
           <div className="flex w-full flex-col items-end justify-center">
-            <div className="absolute top-[34px] mr-0 sm:h-40 sm:w-40 h-32 w-32 overflow-hidden rounded-full -mt-24 md:mr-4 profile-image">
+            <div className="profile-image absolute top-[34px] -mt-24 mr-0 h-38 w-38 overflow-hidden rounded-full sm:h-40 sm:w-40 md:mr-4">
               <ImageFallback
                 src={userData?.profile?.photo && getImg(userData?.profile?.photo)}
                 loading="lazy"
                 width={128}
                 height={128}
-                // fallbackSrc={noImage2}
+                fallbackSrc={noImage2}
                 alt="Profile"
                 className="h-full w-full"
               />
@@ -571,7 +567,7 @@ const UserBannerProfile = ({
       />
       {isBioModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/[40%]">
-          <div className="relative w-[95%] max-w-[545px] max-h-[90vh] overflow-y-auto rounded-[10px] bg-white p-6 shadow-xl">
+          <div className="relative max-h-[90vh] w-[95%] max-w-[545px] overflow-y-auto rounded-[10px] bg-white p-6 shadow-xl">
             <button
               type="button"
               onClick={() => setIsBioModalOpen(false)}
@@ -580,7 +576,7 @@ const UserBannerProfile = ({
               ×
             </button>
             <div className="mb-4 text-lg font-semibold text-black">Short Bio</div>
-            <div className="text-[15px] text-[#2c2c2c] whitespace-pre-line">
+            <div className="text-[15px] whitespace-pre-line text-[#2c2c2c]">
               {userData?.profile?.short_bio || ""}
             </div>
           </div>

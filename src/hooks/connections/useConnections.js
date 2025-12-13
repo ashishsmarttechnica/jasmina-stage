@@ -10,12 +10,14 @@ import capitalize from "@/lib/capitalize";
 import useConnectionsStore, { useCompanyConnectionsStore } from "@/store/connections.store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
+import { useTranslations } from "next-intl";
 import { toast } from "react-toastify";
 
 export const useConnections = (connectionType, page, limit, options = {}) => {
   const userId = options.userId || Cookies.get("userId");
   const userType = options.userType || capitalize(Cookies.get("userRole"));
   const { connections, setConnections, setPagination, setHasMore } = useConnectionsStore();
+  const t = useTranslations("Connections");
 
   return useQuery({
     queryKey: ["connections", userId, userType, page],
@@ -39,7 +41,7 @@ export const useConnections = (connectionType, page, limit, options = {}) => {
         };
       }
 
-      throw new Error(res?.message || "Failed to fetch connections");
+      throw new Error(res?.message || t("fetchFailed"));
     },
     enabled: !!userId && !!userType && !!page,
     keepPreviousData: true,
@@ -51,6 +53,7 @@ export const useCompanyConnections = (connectionType, page, limit, options = {})
   const userId = options.userId || Cookies.get("userId");
   const userType = options.userType || capitalize(Cookies.get("userRole"));
   const { connections, setConnections, setPagination, setHasMore } = useCompanyConnectionsStore();
+  const t = useTranslations("Connections");
 
   return useQuery({
     queryKey: ["companyConnections", userId, userType, page],
@@ -74,7 +77,7 @@ export const useCompanyConnections = (connectionType, page, limit, options = {})
         };
       }
 
-      throw new Error(res?.message || "Failed to fetch connections");
+      throw new Error(res?.message || t("fetchFailed"));
     },
     enabled: !!userId && !!userType && !!page,
     keepPreviousData: true,
@@ -87,33 +90,82 @@ export const useCreateConnection = () => {
   const queryClient = useQueryClient();
   const userId = Cookies.get("userId");
   const userRole = Cookies.get("userRole");
+  const t = useTranslations("Connections");
 
   return useMutation({
-    mutationFn: (data) =>
-      {
+    mutationFn: (data) => {
       console.log(data, "data123456789123456789");
       return createConnection({
-        senderId: userId, //login user id
-        senderType: capitalize(userRole), //login user role
-        reciverId: data.id, //sender id
-        reciverType: capitalize(data.role), //sender role
+        senderId: userId, // login user id
+        senderType: capitalize(userRole), // login user role
+        reciverId: data.id, // sender id
+        reciverType: capitalize(data.role), // sender role
       });
-      },
-    onSuccess: (data) => {
+    },
+    onMutate: () => {
+      const toastId = toast.loading(t("sendingRequest"), {
+        autoClose: false,
+        closeOnClick: false,
+      });
+
+      return { toastId };
+    },
+    onSuccess: (data, _variables, context) => {
+      const toastId = context?.toastId;
+
       if (data?.success) {
-        toast.success("Connection request sent successfully!");
+        if (toastId) {
+          toast.update(toastId, {
+            render: t("requestSentSuccess"),
+            type: "success",
+            isLoading: false,
+            autoClose: 3000,
+            closeOnClick: true,
+          });
+        } else {
+          toast.success(t("requestSentSuccess"));
+        }
         // Only invalidate the userSuggestions query with exact match
         queryClient.invalidateQueries({
           queryKey: ["userSuggestions"],
           exact: true,
         });
       } else {
-        toast.error(data?.message || "Failed to send connection request");
+        const message = data?.message || t("requestSendFailed");
+        if (toastId) {
+          toast.update(toastId, {
+            render: message,
+            type: "error",
+            isLoading: false,
+            autoClose: 4000,
+            closeOnClick: true,
+          });
+        } else {
+          toast.error(message);
+        }
       }
     },
-    onError: (error) => {
-      const errorMessage = error?.response?.data?.message || "Something went wrong!";
-      toast.error(`Error: ${errorMessage}`);
+    onError: (error, _variables, context) => {
+      const errorMessage = error?.response?.data?.message || t("somethingWentWrong");
+      const toastId = context?.toastId;
+
+      if (toastId) {
+        toast.update(toastId, {
+          render: `${t("error")}: ${errorMessage}`,
+          type: "error",
+          isLoading: false,
+          autoClose: 4000,
+          closeOnClick: true,
+        });
+      } else {
+        toast.error(`${t("error")}: ${errorMessage}`);
+      }
+    },
+    onSettled: (_data, _error, _variables, context) => {
+      const toastId = context?.toastId;
+      if (toastId) {
+        setTimeout(() => toast.dismiss(toastId), 4500);
+      }
     },
   });
 };
@@ -123,6 +175,7 @@ export const useRemoveConnection = () => {
   const userId = Cookies.get("userId");
   const userRole = Cookies.get("userRole");
   const { connections, setConnections } = useConnectionsStore();
+  const t = useTranslations("Connections");
 
   return useMutation({
     mutationFn: (data) =>
@@ -134,16 +187,16 @@ export const useRemoveConnection = () => {
       }),
     onSuccess: (data, variables) => {
       if (data?.success) {
-        toast.success("Connection removed successfully!");
+        toast.success(t("connectionRemovedSuccess"));
         const updatedConnections = connections.filter((conn) => conn._id !== variables.id);
         setConnections(updatedConnections);
       } else {
-        toast.error(data?.message || "Failed to remove connection");
+        toast.error(data?.message || t("connectionRemoveFailed"));
       }
     },
     onError: (error) => {
-      const errorMessage = error?.response?.data?.message || "Something went wrong!";
-      toast.error(`Error: ${errorMessage}`);
+      const errorMessage = error?.response?.data?.message || t("somethingWentWrong");
+      toast.error(`${t("error")}: ${errorMessage}`);
     },
   });
 };
@@ -154,6 +207,7 @@ export const useOthersUserConnections = (page, limit, options = {}) => {
   const profileId = options.profileId;
   const userType = options.userType || capitalize(Cookies.get("userRole"));
   const { connections, setConnections, setPagination, setHasMore } = useConnectionsStore();
+  const t = useTranslations("Connections");
 
   return useQuery({
     queryKey: ["othersUserConnections", userId, profileId, userType, page],
@@ -171,7 +225,7 @@ export const useOthersUserConnections = (page, limit, options = {}) => {
           isLastPage: pagination.currentPage >= pagination.totalPages,
         };
       }
-      throw new Error(res?.message || "Failed to fetch connections");
+      throw new Error(res?.message || t("fetchFailed"));
     },
     enabled: !!userId && !!profileId && !!userType && !!page,
     keepPreviousData: true,
@@ -186,6 +240,7 @@ export const useOthersCompanyConnections = (page, limit, options = {}) => {
   const profileId = options.profileId;
   const userType = options.userType || capitalize(Cookies.get("userRole"));
   const { connections, setConnections, setPagination, setHasMore } = useConnectionsStore();
+  const t = useTranslations("Connections");
 
   return useQuery({
     queryKey: ["othersCompanyConnections", userId, profileId, userType, page],
@@ -203,7 +258,7 @@ export const useOthersCompanyConnections = (page, limit, options = {}) => {
           isLastPage: pagination.currentPage >= pagination.totalPages,
         };
       }
-      throw new Error(res?.message || "Failed to fetch connections");
+      throw new Error(res?.message || t("fetchFailed"));
     },
     enabled: !!userId && !!profileId && !!userType && !!page,
     keepPreviousData: true,

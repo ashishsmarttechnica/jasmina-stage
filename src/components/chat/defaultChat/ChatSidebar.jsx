@@ -17,7 +17,7 @@ import { Toggle } from "rsuite";
 import { getChatSocket } from "../../../utils/socket";
 import Search from "./Search";
 
-export default function ChatSidebar({ onSelect, activeChat, refreshKey, setRefreshKey }) {
+export default function ChatSidebar({ onSelect, activeChat, refreshKey, setRefreshKey, targetRoomId }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchVisible, setSearchVisible] = useState(false);
   const [conversations, setConversations] = useState([]);
@@ -35,6 +35,8 @@ export default function ChatSidebar({ onSelect, activeChat, refreshKey, setRefre
   // const [getConversations,setConversations] = useState([]);   
   // 🟢 har chat ke liye socket ref
   const chatSocketRef = useRef(null);
+  const itemRefs = useRef({});
+  const autoSelectedRef = useRef(false);
   useEffect(() => {
     if (!user?._id) return;
 
@@ -184,6 +186,44 @@ export default function ChatSidebar({ onSelect, activeChat, refreshKey, setRefre
     fetchConversations();
   }, [userId, refreshKey]);
 
+  // Auto-select chat when targetRoomId matches a conversation
+  useEffect(() => {
+    if (!targetRoomId || chatLoading || conversations.length === 0) return;
+
+    // Reset auto-selected flag if targetRoomId changes
+    if (autoSelectedRef.current && activeChat?.roomId !== targetRoomId) {
+      autoSelectedRef.current = false;
+    }
+
+    // Skip if already auto-selected for this targetRoomId
+    if (autoSelectedRef.current) return;
+
+    // Find conversation matching targetRoomId
+    const matchingConversation = conversations.find(
+      (conv) => conv.roomId === targetRoomId
+    );
+
+    // Only auto-select if:
+    // 1. Matching conversation found
+    // 2. Not already the active chat
+    if (
+      matchingConversation &&
+      (!activeChat || activeChat.roomId !== targetRoomId)
+    ) {
+      // Scroll the sidebar to the matching conversation
+      const el = itemRefs.current[matchingConversation.roomId];
+      if (el && typeof el.scrollIntoView === "function") {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 0);
+      }
+
+      // console.log("[ChatSidebar] Auto-selecting chat from URL:", targetRoomId);
+      autoSelectedRef.current = true;
+      handleChatSelect(matchingConversation);
+    }
+  }, [targetRoomId, conversations, chatLoading, activeChat]);
+
   // 🟢 safe string conversion
   const toLowerSafe = (value) => {
     if (typeof value === "string") return value.toLowerCase();
@@ -283,6 +323,35 @@ export default function ChatSidebar({ onSelect, activeChat, refreshKey, setRefre
 
     return name.includes(searchTerm) || role.includes(searchTerm);
   });
+
+  // Function to emit DND update to all connected users via socket
+  const emitDndUpdateToUsers = async (companyId, dndEnabled) => {
+    try {
+      const socket = getChatSocket(userId);
+      if (socket && socket.connected) {
+        // Emit dnd_update event to notify all connected users about DND state change
+        socket.emit("dnd_update", {
+          companyId: companyId,
+          dndEnabled: dndEnabled,
+          timestamp: new Date().toISOString(),
+        });
+        // console.log("[ChatSidebar] DND update emitted via socket:", { companyId, dndEnabled });
+      } else if (socket) {
+        // If socket not connected, connect first then emit
+        socket.once("connect", () => {
+          socket.emit("dnd_update", {
+            companyId: companyId,
+            dndEnabled: dndEnabled,
+            timestamp: new Date().toISOString(),
+          });
+          // console.log("[ChatSidebar] DND update emitted after socket connect:", { companyId, dndEnabled });
+        });
+        socket.connect();
+      }
+    } catch (error) {
+      console.error("[ChatSidebar] Error emitting DND update via socket:", error);
+    }
+  };
 
   // cleanup (component unmount hone pe)
   useEffect(() => {
@@ -421,6 +490,11 @@ export default function ChatSidebar({ onSelect, activeChat, refreshKey, setRefre
           return (
             <div
               key={conversation._id}
+              ref={(el) => {
+                if (el) {
+                  itemRefs.current[conversation.roomId] = el;
+                }
+              }}
               onClick={() => handleChatSelect(conversation)}
               className={`flex cursor-pointer items-center gap-3 border-b border-slate-200 p-3 py-4 hover:bg-gray-100 ${activeChat?.id === conversation.roomId ? "bg-gray-100" : ""
                 }`}

@@ -1,7 +1,7 @@
 "use client";
 import noImage2 from "@/assets/form/noImage2.svg";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const ImageFallback = ({
   src,
@@ -36,6 +36,7 @@ const ImageFallback = ({
       height={height}
       onError={handleError}
       className={className}
+      // style={{ ...(props.style || {}), height: `${height}px`, width: `${width}px` }}
       {...props}
     />
   );

@@ -84,6 +84,14 @@
     "employeSteps": {
       "title": "تمكين خطوتك المهنية القادمة",
       "subtitle": "اكتشف الشركات الشاملة ، وظائف ذات مغزى ، وشبكة مهنية تدعمك."
+    },
+    "testimonials": {
+      "anonymous": "مجهول",
+      "eyebrow": "الشهادات",
+      "title": "أصوات من مجتمعنا",
+      "description": "تسلط القصص الواردة من الأعضاء عبر المناطق الضوء على كيفية قيام ياسمينا بالحفاظ على الرحلات المهنية آمنة وشاملة ومرتكزة على الثقة.",
+      "noTestimonials": "لا توجد شهادات المتاحة في الوقت الراهن.",
+      "region": "منطقة"
     }
   },
   "Header": {
@@ -198,6 +206,7 @@
     "ConfirmPassword": "تأكيد كلمة المرور",
     "ChangePassword": "تغيير كلمة المرور",
     "SelectAccountType": "حدد نوع الحساب",
+    "User": "مستخدم",
     "Company": "NGO / شركة",
     "Cancel": "يلغي",
     "ContinueWithGoogle": "تابع مع Google",
@@ -978,7 +987,8 @@
     "badge": "أُعجب",
     "showMore": "عرض {count} أخرى",
     "showingCount": "يتم عرض {current} من أصل {total} شخصًا أعجبوا بهذا المنشور.",
-    "unknownUser": "مستخدم غير معروف"
+    "unknownUser": "مستخدم غير معروف",
+    "loadingMore": ""
   },
   "FeedComment": {
     "commentPlaceholder": "أضف تعليقًا ...",
@@ -1163,6 +1173,12 @@
     "jobTitleOrCompanyPlaceholder": "المسمى الوظيفي أو الشركة",
     "location": "موقع",
     "findJob": "ابحث عن الوظيفة",
+    "JobSearchResults": "نتائج البحث عن الوظائف",
+    "Found": "وجد",
+    "jobsMatchingCriteria": "وظائف تطابق المعايير",
+    "Search": "بحث",
+    "Tip": "نصيحة",
+    "TryAdjustingFilters": "حاول تعديل مرشحات البحث أو الموقع للعثور على المزيد من الفرص.",
     "Loadingjobs": "تحميل الوظائف ...",
     "Errorloadingjobs": "خطأ في تحميل الوظائف.",
     "NoSavedjobsfound": "لم يتم العثور على وظائف محفوظة.",
@@ -1320,7 +1336,8 @@
       "selectApplicantPlaceholder": "اختر متقدمًا لعرض التفاصيل"
     },
     "companyNamePlaceholder": "اسم الشركة",
-    "Notes": "ملحوظات"
+    "Notes": "ملحوظات",
+    "editJob": "تحرير الوظيفة"
   },
   "Interviews": {
     "loading": "جارٍ تحميل المقابلات...",
@@ -1569,7 +1586,10 @@
       "applyLinkPlaceholder": "https://company.com/careers",
       "postJob": "نشر الوظيفة",
       "submitting": "جارٍ الإرسال..."
-    }
+    },
+    "JobTitle": "مسمى وظيفي *",
+    "ContactNumber": "رقم الاتصال",
+    "Apply": "التقديم عبر (البريد الإلكتروني)"
   },
   "blocked": "تم حظر حسابك. \nيرجى الاتصال بالدعم.",
   "messages": {
@@ -1585,5 +1605,67 @@
     "description": "نستخدم ملفات تعريف الارتباط لتحسين التنقل في الموقع وتحليل الاستخدام وتقديم محتوى مخصص. يمكنك قبول أو رفض ملفات تعريف الارتباط غير الضرورية.",
     "reject": "رفض",
     "accept": "قبول"
+  },
+  "Connections": {
+    "sendingRequest": "جارٍ إرسال طلب الاتصال...",
+    "requestSentSuccess": "تم إرسال طلب الاتصال بنجاح!",
+    "requestSendFailed": "فشل إرسال طلب الاتصال",
+    "connectionRemovedSuccess": "تم إزالة الاتصال بنجاح!",
+    "connectionRemoveFailed": "فشل إزالة الاتصال",
+    "fetchFailed": "فشل جلب الاتصالات",
+    "somethingWentWrong": "حدث خطأ ما!",
+    "error": "خطأ"
+  },
+  "ViewJobModal": {
+    "loading": "جارٍ التحميل...",
+    "loadingJobDetails": "جارٍ تحميل تفاصيل الوظيفة...",
+    "error": "خطأ",
+    "failedToLoadJobDetails": "فشل تحميل تفاصيل الوظيفة",
+    "jobNotFound": "الوظيفة غير موجودة",
+    "jobDetailsNotFound": "تفاصيل الوظيفة غير موجودة",
+    "editJob": "تعديل الوظيفة",
+    "jobDetails": "تفاصيل الوظيفة",
+    "jobInformation": "معلومات الوظيفة",
+    "selectSeniorityLevel": "اختر مستوى الأقدمية",
+    "workHours": "ساعات العمل",
+    "compensationTimeline": "التعويض والجدول الزمني",
+    "salaryRange": "نطاق الراتب",
+    "postedDate": "تاريخ النشر",
+    "deadline": "الموعد النهائي",
+    "contactInformation": "معلومات الاتصال",
+    "enterContactNumber": "أدخل رقم الاتصال",
+    "enterEmailForApplications": "أدخل البريد الإلكتروني للطلبات",
+    "enterCareerWebsiteUrl": "أدخل رابط موقع الوظائف",
+    "requirements": "المتطلبات",
+    "selectEducation": "اختر التعليم",
+    "selectGenderPreference": "اختر تفضيل الجنس",
+    "genderPreference": "تفضيل الجنس",
+    "jobDescription": "وصف الوظيفة",
+    "enterJobDescription": "أدخل وصف الوظيفة",
+    "responsibilities": "المسؤوليات",
+    "enterResponsibilities": "أدخل المسؤوليات",
+    "requiredSkills": "المهارات المطلوبة",
+    "enterSkill": "أدخل مهارة",
+    "jobTags": "علامات الوظيفة",
+    "requiredLanguages": "اللغات المطلوبة",
+    "cancel": "إلغاء",
+    "saving": "جارٍ الحفظ...",
+    "saveChanges": "حفظ التغييرات",
+    "close": "إغلاق",
+    "employmentType": "نوع التوظيف",
+    "department": "القسم",
+    "seniorityLevel": "مستوى الأقدمية",
+    "contactNumber": "رقم الاتصال",
+    "applyVia": "التقديم عبر",
+    "careerWebsite": "موقع الوظائف",
+    "education": "التعليم",
+    "experience": "الخبرة",
+    "ContactNumber": "رقم الاتصال",
+    "Apply": "تقدم عبر",
+    "genderPreferenceOptions": {
+      "lgbtq": "LGBTQ+",
+      "nonlgbtq": "غير LGBTQ+",
+      "all": "الكل"
+    }
   }
 }

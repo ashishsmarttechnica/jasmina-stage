@@ -97,6 +97,7 @@ const ChatConnection = () => {
 
   const userId = Cookies.get("userId");
   const searchParams = useSearchParams();
+  console.log(searchParams, "searchParamssearchParams+++++");
   const targetRoomId = searchParams?.get("roomId");
 
   // Initialize DND state when component mounts to prevent flicker
@@ -107,7 +108,11 @@ const ChatConnection = () => {
   }, [userId, isLoggedInUser, initializeDnd]);
 
   const handleSelectChat = (chat) => {
+    console.log(chat, "chatchatchat");
+
+    // Set active chat
     setActiveChat(chat);
+
     // For company chats, check current DND mode on selection
     if (chat?.companyName && userId && chat?.conversationId) {
       checkDnd(userId, chat.conversationId);
@@ -225,12 +230,12 @@ const ChatConnection = () => {
           </div>
           <div className="flex flex-1 overflow-hidden">
             <div
-              className={`h-full w-full overflow-hidden border-r border-slate-200 md:max-w-[276.5px] ${
-                activeChat ? "hidden md:block" : "block"
-              }`}
+              className={`h-full w-full overflow-hidden border-r border-slate-200 md:max-w-[276.5px] ${activeChat ? "hidden md:block" : "block"
+                }`}
             >
               <ChatSidebar
                 onSelect={handleSelectChat}
+
                 activeChat={activeChat}
                 targetRoomId={targetRoomId}
                 refreshKey={sidebarRefreshKey}

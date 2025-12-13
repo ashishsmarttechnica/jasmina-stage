@@ -186,6 +186,7 @@ const JobPreferencesForm = forwardRef(
             <p className="mt-1 text-xs text-gray-500">{t("CurrencyDescription")}</p>
           </div>
 
+        
           <div>
             <InputField
               name="experience"
@@ -206,8 +207,10 @@ const JobPreferencesForm = forwardRef(
           value={localData.joindate}
           onChange={handleDateChange}
           error={errors.joindate}
+          
           className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
         />
+
           <Selecter
             label={`${t("worklocation")}`}
             name="workLocation"

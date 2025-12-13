@@ -12,11 +12,10 @@ const nextConfig = {
       "jsmapi.smarttechnica.com",
       "192.168.1.29",
       "192.168.1.10",
-      "192.168.1.16",
       "192.168.1.25",
       "api.joinjasmina.com",
       "stageapi.joinjasmina.com",
-      "res.cloudinary.com"
+      "res.cloudinary.com",
     ],
   },
 };

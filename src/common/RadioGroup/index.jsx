@@ -21,7 +21,7 @@ const RadioGroup = ({
 
   return (
     <div className={`w-full ${className}`}>
-      {title && <h3 className="text-md text-custBlack mb-3 font-semibold">{title}</h3>}
+      {title && <h3 className="text-base text-custBlack mb-3 font-semibold">{title}</h3>}
 
       <div className={bordered ? "border-neutralLight2 border-t py-4" : ""}>
         <div className="flex flex-wrap gap-4">

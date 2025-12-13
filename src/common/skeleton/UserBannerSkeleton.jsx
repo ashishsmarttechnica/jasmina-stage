@@ -24,7 +24,7 @@ const UserBannerSkeleton = () => {
           {/* Right side skeleton */}
           <div className="flex flex-col items-end justify-center w-full">
             {/* Profile image skeleton */}
-            <div className="w-28 h-28 md:w-32 md:h-32 rounded-full bg-gray-100 animate-pulse -mt-56 mr-0 md:mr-4 md:-mt-24"></div>
+            <div className="sm:w-40 sm:h-40 w-32 h-32 rounded-full bg-gray-100 animate-pulse -mt-56 mr-0 md:mr-4 md:-mt-24"></div>
 
             {/* Stats skeleton */}
             <div className="flex border border-gray-100 mt-28 sm:mt-5 md:mt-4 w-full sm:max-w-xs xl:max-w-[266px] overflow-hidden rounded-md">

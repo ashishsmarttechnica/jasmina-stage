@@ -11,6 +11,7 @@ import getImg from "@/lib/getImg";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { useState } from "react";
 import { FaBuilding, FaUser } from "react-icons/fa";
 import { NameWithTooltip, SubtitleWithTooltip } from "../utils/tooltipUtils";
 import ImageFallback from "./shared/ImageFallback";
@@ -25,28 +26,25 @@ const UserMightKnow = ({ title }) => {
     " Open for Remote Worldwide": "🌍",
   };
   // Conditionally use the correct store and hook
-  let suggestions, setSuggestions, resetStore, data, isLoading, isError, error, refetch;
+  let suggestions, removeSuggestion, data, isLoading, isError, error, refetch;
   if (userType === "Company") {
     // Only call company suggestions and store
     const companyStore = require("@/store/userMightKnow.store");
-    ({ suggestions, setSuggestions, resetStore } = companyStore.useCompanySuggestionsStore());
+    ({ suggestions, removeSuggestion } = companyStore.useCompanySuggestionsStore());
     ({ data, isLoading, isError, error, refetch } = useCompanySuggestions());
   } else {
     // Only call user suggestions and store
     const userStore = require("@/store/userMightKnow.store");
-    ({ suggestions, setSuggestions, resetStore } = userStore.default());
+    ({ suggestions, removeSuggestion } = userStore.default());
     ({ data, isLoading, isError, error, refetch } = useUserSuggestions());
   }
 
-  const {
-    mutate: createConnection,
-    isPending,
-    isLoading: isCreateConnectionLoading,
-  } = useCreateConnection();
+  const { mutate: createConnection, isLoading: isCreateConnectionLoading } = useCreateConnection();
   const t = useTranslations("UserMainFeed");
 
   const displayData = suggestions?.results || data?.results;
   const router = useRouter();
+  const [pendingIds, setPendingIds] = useState([]);
 
   const getItemConfig = (item) => {
     const configs = {
@@ -80,17 +78,24 @@ const UserMightKnow = ({ title }) => {
   };
 
   const handleContactClick = (item) => {
-    console.log(item, "item34543534534");
+    if (isCreateConnectionLoading || pendingIds.includes(item._id)) return;
 
-    if (isCreateConnectionLoading) return;
+    setPendingIds((prev) => [...prev, item._id]);
+    removeSuggestion?.(item._id);
+
     createConnection(
       { id: item._id, role: item.type },
       {
         onSuccess: (res) => {
           if (res.success) {
-            resetStore();
             refetch();
           }
+        },
+        onError: () => {
+          refetch();
+        },
+        onSettled: () => {
+          setPendingIds((prev) => prev.filter((pendingId) => pendingId !== item._id));
         },
       }
     );
@@ -104,21 +109,9 @@ const UserMightKnow = ({ title }) => {
     }
   };
 
-  if (isLoading || !displayData) {
+  // Show skeleton during loading or when there's an error
+  if (isLoading || isError || !displayData) {
     return <UserMightKnowSkeleton />;
-  }
-
-  if (isError) {
-    return (
-      <Card className="sm:w-full md:w-full md:max-w-full xl:max-w-[266px]">
-        <CardHeading title={t("Youmayknow")} />
-        <div className="w-full px-2 py-4">
-          <p className="text-center text-red-500">
-            {error?.message || "Failed to load suggestions"}
-          </p>
-        </div>
-      </Card>
-    );
   }
 
   if (!displayData.length) {
@@ -136,12 +129,12 @@ const UserMightKnow = ({ title }) => {
     <Card className="sm:w-full md:w-full md:max-w-full xl:max-w-[266px]">
       <CardHeading title={t("Youmayknow")} />
       <div
-        className={`flex w-full flex-col gap-2 px-2 py-4 ${
-          displayData.length > 5 ? "max-h-80 overflow-y-auto" : ""
+        className={`flex w-full flex-col gap-2 px-2 py-4 ${displayData.length > 5 ? "max-h-80 overflow-y-auto" : ""
           }`}
       >
         {displayData?.map((item) => {
           const config = getItemConfig(item);
+          const isProcessing = isCreateConnectionLoading || pendingIds.includes(item._id);
           // console.log(config, "configconfig");
 
           // console.log(config.image, "hello jkjkjksdjkfksdk00000");
@@ -196,11 +189,10 @@ const UserMightKnow = ({ title }) => {
 
               <button
                 onClick={() => handleContactClick(item)}
-                disabled={isCreateConnectionLoading}
-                className={`rounded-sm border p-1.5 transition-colors duration-300 ${
-                  isCreateConnectionLoading
-                    ? "cursor-not-allowed bg-gray-300 opacity-50"
-                    : "bg-secondary hover:border-primary border-transparent hover:bg-transparent"
+                disabled={isProcessing}
+                className={`rounded-sm border p-1.5 transition-colors duration-300 ${isProcessing
+                  ? "cursor-not-allowed bg-gray-300 opacity-50"
+                  : "bg-secondary hover:border-primary border-transparent hover:bg-transparent"
                   }`}
               >
                 <Contact className="h-4 w-4" />

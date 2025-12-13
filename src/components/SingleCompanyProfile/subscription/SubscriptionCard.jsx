@@ -92,7 +92,7 @@ const SubscriptionCard = ({
 
       <div className="relative z-10">
         <div className="mb-4">
-          <h3 className="text-primary text-md font-medium leading-relaxed break-words">{title}</h3>
+          <h3 className="text-primary text-base font-medium leading-relaxed break-words">{title}</h3>
           <div className="text-primary mt-2 text-right text-[50px] font-bold leading-relaxed break-words">€{price}</div>
           <p className="mt-4 text-center text-gray-600 leading-relaxed break-words">
             {eligibility}

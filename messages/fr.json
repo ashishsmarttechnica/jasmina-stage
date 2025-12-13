@@ -84,6 +84,14 @@
     "employeSteps": {
       "title": "Autoriser votre prochaine étape de carrière",
       "subtitle": "Découvrez des entreprises inclusives, des emplois significatifs et un réseau professionnel qui vous soutient."
+    },
+    "testimonials": {
+      "anonymous": "Anonyme",
+      "eyebrow": "Témoignages",
+      "title": "Voix de notre communauté",
+      "description": "Les témoignages de membres de toutes les régions montrent comment Jasmina assure des parcours professionnels sûrs, inclusifs et fondés sur la confiance.",
+      "noTestimonials": "Aucun témoignage disponible pour le moment.",
+      "region": "Région"
     }
   },
   "Header": {
@@ -198,6 +206,7 @@
     "ConfirmPassword": "Confirmez le mot de passe",
     "ChangePassword": "Changer le mot de passe",
     "SelectAccountType": "Sélectionner le type de compte",
+    "User": "Utilisateur",
     "Company": "NGO / Entreprise",
     "Cancel": "Annuler",
     "ContinueWithGoogle": "Continuez avec Google",
@@ -961,7 +970,8 @@
     "badge": "Aimé",
     "showMore": "Afficher encore {count}",
     "showingCount": "Affichage de {current} sur {total} personnes ayant aimé cette publication.",
-    "unknownUser": "Utilisateur inconnu"
+    "unknownUser": "Utilisateur inconnu",
+    "loadingMore": ""
   },
   "FeedComment": {
     "commentPlaceholder": "Ajouter un commentaire ...",
@@ -1146,6 +1156,12 @@
     "jobTitleOrCompanyPlaceholder": "Titre ou entreprise",
     "location": "Emplacement",
     "findJob": "Trouver un emploi",
+    "JobSearchResults": "Résultats de recherche d'emploi",
+    "Found": "Trouvé",
+    "jobsMatchingCriteria": "emplois correspondant aux critères",
+    "Search": "Recherche",
+    "Tip": "Astuce",
+    "TryAdjustingFilters": "Essayez d'ajuster vos filtres de recherche ou votre emplacement pour trouver plus d'opportunités.",
     "Loadingjobs": "Chargement des emplois ...",
     "Errorloadingjobs": "Erreur de chargement des travaux.",
     "NoSavedjobsfound": "Aucun travail économisé trouvé.",
@@ -1303,7 +1319,8 @@
       "selectApplicantPlaceholder": "Sélectionnez un candidat pour voir les détails"
     },
     "companyNamePlaceholder": "Nom de l'entreprise",
-    "Notes": "Notes"
+    "Notes": "Notes",
+    "editJob": "Modifier le travail"
   },
   "Interviews": {
     "loading": "Chargement des entretiens...",
@@ -1551,7 +1568,10 @@
       "applyLinkPlaceholder": "https://company.com/careers",
       "postJob": "Publier l'offre",
       "submitting": "Envoi..."
-    }
+    },
+    "JobTitle": "Titre d'emploi *",
+    "ContactNumber": "Numéro de contact",
+    "Apply": "Postuler via (e-mail)"
   },
   "blocked": "Votre compte a été bloqué. \nVeuillez contacter l'assistance.",
   "messages": {
@@ -1567,5 +1587,67 @@
     "description": "Nous utilisons des cookies pour améliorer la navigation sur le site, analyser l'utilisation et fournir du contenu personnalisé. Vous pouvez accepter ou refuser les cookies non essentiels.",
     "reject": "Refuser",
     "accept": "Accepter"
+  },
+  "Connections": {
+    "sendingRequest": "Envoi de la demande de connexion...",
+    "requestSentSuccess": "Demande de connexion envoyée avec succès !",
+    "requestSendFailed": "Échec de l'envoi de la demande de connexion",
+    "connectionRemovedSuccess": "Connexion supprimée avec succès !",
+    "connectionRemoveFailed": "Échec de la suppression de la connexion",
+    "fetchFailed": "Échec de la récupération des connexions",
+    "somethingWentWrong": "Quelque chose s'est mal passé !",
+    "error": "Erreur"
+  },
+  "ViewJobModal": {
+    "loading": "Chargement...",
+    "loadingJobDetails": "Chargement des détails de l'offre...",
+    "error": "Erreur",
+    "failedToLoadJobDetails": "Échec du chargement des détails de l'offre",
+    "jobNotFound": "Offre non trouvée",
+    "jobDetailsNotFound": "Détails de l'offre non trouvés",
+    "editJob": "Modifier l'offre",
+    "jobDetails": "Détails de l'offre",
+    "jobInformation": "Informations sur l'offre",
+    "selectSeniorityLevel": "Sélectionner le niveau d'ancienneté",
+    "workHours": "Heures de travail",
+    "compensationTimeline": "Rémunération et calendrier",
+    "salaryRange": "Fourchette de salaire",
+    "postedDate": "Date de publication",
+    "deadline": "Date limite",
+    "contactInformation": "Informations de contact",
+    "enterContactNumber": "Entrer le numéro de contact",
+    "enterEmailForApplications": "Entrer l'e-mail pour les candidatures",
+    "enterCareerWebsiteUrl": "Entrer l'URL du site de carrière",
+    "requirements": "Exigences",
+    "selectEducation": "Sélectionner l'éducation",
+    "selectGenderPreference": "Sélectionner la préférence de genre",
+    "genderPreference": "Préférence de genre",
+    "jobDescription": "Description du poste",
+    "enterJobDescription": "Entrer la description du poste",
+    "responsibilities": "Responsabilités",
+    "enterResponsibilities": "Entrer les responsabilités",
+    "requiredSkills": "Compétences requises",
+    "enterSkill": "Entrer une compétence",
+    "jobTags": "Tags de l'offre",
+    "requiredLanguages": "Langues requises",
+    "cancel": "Annuler",
+    "saving": "Enregistrement...",
+    "saveChanges": "Enregistrer les modifications",
+    "close": "Fermer",
+    "employmentType": "Type d'emploi",
+    "department": "Département",
+    "seniorityLevel": "Niveau d'ancienneté",
+    "contactNumber": "Numéro de contact",
+    "applyVia": "Postuler via",
+    "careerWebsite": "Site de carrière",
+    "education": "Éducation",
+    "experience": "Expérience",
+    "ContactNumber": "Numéro de contact",
+    "Apply": "postuler via",
+    "genderPreferenceOptions": {
+      "lgbtq": "LGBTQ+",
+      "nonlgbtq": "Non-LGBTQ+",
+      "all": "Tous"
+    }
   }
 }

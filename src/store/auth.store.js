@@ -17,6 +17,10 @@ const useAuthStore = create(
           // if (cookieName === "cookie_consent") return;
           Cookies.remove(cookieName);
         });
+        // Clear sessionStorage to reset redirect flag
+        if (typeof window !== "undefined") {
+          sessionStorage.removeItem("redirectUsed");
+        }
         set({}, true);
         set({
           token: null,
